@@ -19,9 +19,10 @@ public class Pelicula {
 	
 	private String titulo;
 	private String descripcion;
-	private String genero;
+	private String categoria;
 	private String director;
-	private int anno;
+	private int duracion;
+	private int anyo;
 	
 	@ManyToMany(mappedBy="peliculas", cascade=CascadeType.ALL)
 	private List<Usuario> usuarios;
@@ -33,12 +34,13 @@ public class Pelicula {
 		
 	}
 	
-	public Pelicula(String titulo, String descripcion, String genero, String director, int anno) {
+	public Pelicula(String titulo, String descripcion, String categoria, String director, int anyo, int duracion) {
 		this.titulo=titulo;
 		this.descripcion=descripcion;
-		this.genero=genero;
+		this.categoria=categoria;
 		this.director=director;
-		this.anno=anno;
+		this.anyo=anyo;
+		this.duracion=duracion;
 		usuarios=new ArrayList<>();
 		resennas=new ArrayList<>();
 	}
@@ -61,24 +63,36 @@ public class Pelicula {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getGenero() {
-		return genero;
-	}
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
 	public String getDirector() {
 		return director;
 	}
 	public void setDirector(String director) {
 		this.director = director;
 	}
-	public int getAnno() {
-		return anno;
+	public String getCategoria() {
+		return categoria;
 	}
-	public void setAnno(int anno) {
-		this.anno = anno;
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
+
+	public int getAnyo() {
+		return anyo;
+	}
+
+	public void setAnyo(int anyo) {
+		this.anyo = anyo;
+	}
+	
+	public int getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
+
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}

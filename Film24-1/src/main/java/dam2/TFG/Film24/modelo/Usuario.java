@@ -19,6 +19,8 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
+	private String dni;
 	private String nombre;
 	private String apellido;
 	private int edad;
@@ -41,8 +43,9 @@ public class Usuario {
 		
 	}
 	
-	public Usuario(String nombre, String apellido, int edad, String correoElectronico, String password) {
+	public Usuario(String nombre,String dni, String apellido, int edad, String correoElectronico, String password) {
 		this.nombre=nombre;
+		this.dni=dni;
 		this.apellido=apellido;
 		this.edad=edad;
 		this.correoElectronico=correoElectronico;
@@ -58,6 +61,14 @@ public class Usuario {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public String getNombre() {
@@ -126,5 +137,5 @@ public class Usuario {
 
 	public boolean esAdmin() {
         return "ADMIN".equalsIgnoreCase(this.rol);
-    }
+    }	
 }

@@ -1,6 +1,7 @@
 package dam2.TFG.Film24.modelo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -104,5 +105,20 @@ public class Pelicula {
 	}
 	public void setResennas(List<Resenna> resennas) {
 		this.resennas = resennas;
+	}
+	
+	public void annadirUsuario(Usuario usuario) {
+		usuarios.add(usuario);
+	}
+	
+	public void eliminarUsuario(Usuario usuario) {
+		Iterator<Usuario> it=usuarios.iterator();
+		
+		while(it.hasNext()) {
+			Usuario u=it.next();
+			if(u.getId()==usuario.getId()) {
+				it.remove();
+			}
+		}
 	}
 }

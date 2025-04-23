@@ -91,4 +91,17 @@ public class Film24DAO {
 	public Resenna consultarResenna(int id) {
 		return (Resenna)em.find(Resenna.class,id);
 	}
+	
+	
+	//ASIGNACION PELICULAA
+	public void asignarPelicula(Usuario u, Pelicula p) {
+		u.annadirPelicula(p);
+		p.annadirUsuario(u);
+	}
+	
+	//DEVOLUCION PELICULA
+	public void devolverPelicula(Usuario u, Pelicula p) {
+		u.eliminarPelicula(p);
+		p.eliminarUsuario(u);
+	}
 }

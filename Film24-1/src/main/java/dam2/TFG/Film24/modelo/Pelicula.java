@@ -24,6 +24,8 @@ public class Pelicula {
 	private String director;
 	private int duracion;
 	private int anyo;
+	private String imagen;
+	private boolean visualizada = false;
 	
 	@ManyToMany(mappedBy="peliculas", cascade=CascadeType.ALL)
 	private List<Usuario> usuarios;
@@ -55,6 +57,15 @@ public class Pelicula {
 	public String getTitulo() {
 		return titulo;
 	}
+	
+	public boolean isVisualizada() {
+		return visualizada;
+	}
+
+	public void setVisualizada(boolean visualizada) {
+		this.visualizada = visualizada;
+	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
@@ -92,6 +103,13 @@ public class Pelicula {
 
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
+	}
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public List<Usuario> getUsuarios() {

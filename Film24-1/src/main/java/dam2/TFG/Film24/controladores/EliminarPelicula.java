@@ -1,5 +1,7 @@
 package dam2.TFG.Film24.controladores;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,14 +18,15 @@ public class EliminarPelicula {
 	@Autowired
 	private Film24DAO dao;
 	
-	@GetMapping("/pelicula/baja")
-	public String bajaPelicula(Model model) {
-		model.addAttribute("peliculaForm", new Pelicula());
-		return "BajaPelicula.html";
-	}
+	@GetMapping("/eliminarPelicula")
+	public String EliminarobtenerPeliculas(Model model) {
+        List<Pelicula> listaPeliculas = dao.listaPeliculas();
+        model.addAttribute("listaPeliculas", listaPeliculas);
+        return "eliminarPelicula";
+    }
 	
-	@PostMapping("/pelicula/baja/submit")
-	public String bajaPeliculaSubmit(Pelicula pelicula, Model model) {
+	@PostMapping("/eliminarPelicula/submit")
+	public String EliminarPeliculaSubmit(Pelicula pelicula, Model model) {
 		Pelicula p=dao.consultarPelicula(pelicula.getId());
 		if(p!=null) {
 			dao.eliminarPelicula(p);

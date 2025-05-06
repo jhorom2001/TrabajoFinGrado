@@ -1,10 +1,14 @@
 package dam2.TFG.Film24.dao;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Resenna;
 import dam2.TFG.Film24.modelo.Usuario;
+import dam2.TFG.Film24.repository.UsuarioRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -12,6 +16,9 @@ import jakarta.transaction.Transactional;
 @Repository
 @Transactional
 public class Film24DAO {
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -46,7 +53,7 @@ public class Film24DAO {
 	
 	//PELICULAS
 	public void altaPelicula(Pelicula p) {
-		em.persist(em);
+		em.persist(p);
 	}
 	
 	public void eliminarPelicula(Pelicula p) {
@@ -93,15 +100,36 @@ public class Film24DAO {
 	}
 	
 	
-	//ASIGNACION PELICULAA
-	public void asignarPelicula(Usuario u, Pelicula p) {
-		u.annadirPelicula(p);
-		p.annadirUsuario(u);
-	}
+	//ASIGNAR PELICULA
+		public void asignarPelicula(Usuario u, Pelicula p) {
+		    // Asegurarse de que la colección de películas se haya cargado correctamente
+		    u = usuarioRepository.findById(u.getId()).orElse(null); // Recargamos el Usuario
+
+		    if (u != null) {
+		        u.annadirPelicula(p);  // Agregamos la película al usuario
+		        p.annadirUsuario(u);   // Agregamos el usuario a la película
+		        p.setVisualizada(true);
+		    } else {
+		        // Maneja el caso donde el usuario no existe (esto puede ser un error)
+		        throw new IllegalArgumentException("Usuario no encontrado");
+		    }
+		}
 	
 	//DEVOLUCION PELICULA
 	public void devolverPelicula(Usuario u, Pelicula p) {
 		u.eliminarPelicula(p);
 		p.eliminarUsuario(u);
+	}
+	
+	
+	//CONSULTAS
+	public List<Pelicula> listaPeliculas() {
+		String jpql = "SELECT p FROM Pelicula p";
+		return em.createQuery(jpql, Pelicula.class).getResultList();
+	}
+	
+	public List<Usuario> listaUsuarios() {
+		String jpql = "SELECT u FROM Usuario u";
+		return em.createQuery(jpql, Usuario.class).getResultList();
 	}
 }

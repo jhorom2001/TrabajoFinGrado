@@ -25,12 +25,14 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	private int edad;
+	private String direccion;
+	private String telefono;
 	
 	@Column(unique=true)
 	private String correoElectronico;
 	
 	private String password;
-	private String rol;
+	private String rol="USUARIO";
 	
 	@ManyToMany
 	@JoinTable(name = "usuario_peliculas", joinColumns = @JoinColumn(name = "usuario_id"),
@@ -135,6 +137,22 @@ public class Usuario {
 		}
 	}
 	
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	public List<Pelicula> getPeliculas() {
 		return peliculas;
 	}

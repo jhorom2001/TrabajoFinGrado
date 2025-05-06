@@ -1,5 +1,7 @@
 package dam2.TFG.Film24.controladores;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +17,14 @@ public class EliminarUsuario {
 	@Autowired
 	private Film24DAO dao;
 	
-	@GetMapping("/usuario/baja")
+	@GetMapping("/eliminarUsuario")
 	public String bajaUsuario(Model model) {
-		model.addAttribute("usuarioForm", new Usuario());
-		return "BajaUsuario";
+		List<Usuario> listaUsuarios=dao.listaUsuarios();
+		model.addAttribute("listaUsuarios", listaUsuarios);
+		return "eliminarUsuario";
 	}
 	
-	@PostMapping("/usuario/baja/submit")
+	@PostMapping("/eliminarUsuario/submit")
 	public String bajaUsuarioSubmit(Usuario usuario, Model model) {
 		System.out.println(usuario.getId());
 		Usuario u=dao.consultaUsuario(usuario.getId());

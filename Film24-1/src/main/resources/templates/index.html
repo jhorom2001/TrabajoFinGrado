@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>FILM 24 - Tu cine en casa</title>
+
+	<!-- Bootstrap y estilos -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+	<style>
+		body {
+			background-color: #0f0f0f;
+			color: white;
+			font-family: 'Segoe UI', sans-serif;
+		}
+
+		.navbar {
+			background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6));
+			padding: 1rem 0;
+		}
+
+		.navbar-brand {
+			color: #00cfff !important;
+			font-weight: bold;
+			font-size: 1.8rem;
+		}
+
+		.btn-success {
+			background-color: #00cfff;
+			border: none;
+			color: black;
+			font-weight: bold;
+			padding: 10px 20px;
+			border-radius: 5px;
+		}
+
+		.btn-outline-light {
+			border-color: #fff;
+			color: #fff;
+		}
+
+		.btn-outline-light:hover {
+			background-color: orange;
+			color: white;
+			border-color: orange;
+		}
+
+
+		.hero-section {
+			background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(15, 15, 15, 0.9)),
+				url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7') no-repeat center center;
+			background-size: cover;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			text-align: center;
+			padding: 60px 20px;
+		}
+
+		.hero-section h1 {
+			font-size: 4rem;
+			font-weight: 900;
+			color: white;
+			text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+		}
+
+		.hero-section p {
+			font-size: 1.4rem;
+			color: #cccccc;
+			max-width: 600px;
+			margin: 20px auto;
+		}
+
+		.section-title {
+			margin: 60px 0 20px;
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: #fff;
+			border-left: 4px solid #00cfff;
+			padding-left: 10px;
+		}
+
+		.image-scroll {
+			overflow-x: auto;
+			white-space: nowrap;
+			padding-bottom: 15px;
+			scroll-behavior: smooth;
+		}
+
+		.carousel-img {
+			height: 300px;
+			margin-right: 15px;
+			border-radius: 12px;
+			transition: transform 0.3s ease-in-out;
+			display: inline-block;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+		}
+
+		.carousel-img:hover {
+			transform: scale(1.1);
+		}
+
+		.login-box {
+			margin-top: 40px;
+			padding: 30px;
+			background-color: #1a1a1a;
+			border-radius: 15px;
+		}
+
+		a {
+			color: #00cfff;
+		}
+
+		a:hover {
+			color: #00a7d9;
+		}
+
+		footer {
+			background-color: #000;
+			color: #bbb;
+			font-size: 0.9rem;
+		}
+
+		footer a {
+			color: #bbb;
+			text-decoration: none;
+		}
+
+		footer a:hover {
+			color: #fff;
+		}
+	</style>
+
+</head>
+
+
+<!-- Informacion de las peliculas -->
+<div class="modal fade" id="infoPeliculaModal" tabindex="-1" aria-labelledby="infoPeliculaLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content bg-dark text-white">
+			<div class="modal-header border-0">
+				<h5 class="modal-title" id="infoPeliculaLabel">Título de la película</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+					aria-label="Cerrar"></button>
+			</div>
+			<div class="modal-body d-flex flex-column flex-md-row">
+				<img id="modalImagen" src="" alt="Imagen de la película" class="img-fluid rounded mb-3 mb-md-0 me-md-4"
+					style="max-width: 300px;">
+				<div>
+					<p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+					<p><strong>Género:</strong> <span id="modalGenero"></span></p>
+					<p><strong>Año:</strong> <span id="modalAnio"></span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<body>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+		<div class="container d-flex justify-content-between align-items-center">
+			<a class="navbar-brand" href="#" th:href="@{/}">FILM 24</a>
+			<div class="d-flex gap-2">
+				<a href="#" class="btn btn-success">SUSCRÍBETE</a>
+				<a href="/loginadmin" class="btn btn-outline-light">Acceder al administrador</a>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Sección Hero -->
+	<div class="hero-section">
+		<h1>Descubre el cine que lo cambia todo</h1>
+		<p>Explora obras maestras, clásicos, cine indie, documentales y más desde tu sofá.</p>
+		<div class="d-flex flex-column align-items-center mt-4">
+			<input id="correo-suscripcion" type="email" class="form-control w-50 mb-3" placeholder="Tu correo" />
+			<button id="btn-suscribir" class="btn btn-success w-50">Comenzar</button>
+			<div id="mensaje-suscripcion" class="text-center mt-3"></div>
+		</div>
+		<p class="mt-3" style="color: #aaa;">Más de 100 películas y series. Cancela cuando quieras.</p>
+	</div>
+
+	<!-- Login -->
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6 login-box">
+				<h2 class="text-center mb-4">Inicia sesión</h2>
+				<form th:action="@{/}" method="post">
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">Correo o contraseña erróneos</div>
+					</div>
+
+					<div th:if="${param.logout}">
+						<div class="alert alert-info">Has cerrado sesión</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="username">Correo electrónico:</label>
+						<input id="username" name="username" type="text" class="form-control"
+							placeholder="Introduce tu email" required autofocus>
+					</div>
+
+					<div class="mb-3">
+						<label for="password">Contraseña:</label>
+						<input id="password" name="password" type="password" class="form-control"
+							placeholder="Introduce tu contraseña" required>
+					</div>
+
+					<div class="d-grid gap-2">
+						<input type="submit" class="btn btn-success" value="Iniciar sesión" />
+					</div>
+				</form>
+				<div class="text-center mt-3">
+					<span>¿Eres nuevo? <a th:href="@{/registroUsuario}">Regístrate aquí</a></span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Carruseles -->
+		<div class="section-title">Las joyas de la corona</div>
+		<div class="image-scroll">
+			<img src="/images/bird.jpg" class="carousel-img" alt="Pelicula Bird" data-titulo="Bird"
+				data-descripcion="Una historia sobre libertad y música en los barrios de Londres." data-genero="Drama"
+				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/El_baño_del_diablo.jpg" class="carousel-img" alt="Pelicula El baño del diablo"
+				data-titulo="El baño del diablo" data-descripcion="Un thriller psicológico sobre la supervivencia."
+				data-genero="Terror" data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/Anatomia_de_una_caida.jpg" class="carousel-img" alt="Pelicula Anatomía de una caída"
+				data-titulo="Anatomía de una caída"
+				data-descripcion="Un drama que explora las relaciones humanas tras una tragedia." data-genero="Drama"
+				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/La_sustancia.jpg" class="carousel-img" alt="Pelicula La sustancia"
+				data-titulo="La sustancia" data-descripcion="Una historia de misterio sobre una sustancia peligrosa."
+				data-genero="Suspenso" data-anio="2022" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/La_estrella_azul.jpg" class="carousel-img" alt="Pelicula La estrella azul"
+				data-titulo="La estrella azul" data-descripcion="Una odisea espacial hacia el futuro de la humanidad."
+				data-genero="Ciencia ficción" data-anio="2025" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Nuevos estrenos</div>
+		<div class="image-scroll">
+			<img src="/images/minecraft.jpg" class="carousel-img" alt="Pelicula Minecraft" data-titulo="Minecraft"
+				data-descripcion="Un juego se convierte en una batalla épica por la supervivencia."
+				data-genero="Aventura" data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/paddington.jpg" class="carousel-img" alt="Pelicula Paddington" data-titulo="Paddington"
+				data-descripcion="Las divertidas aventuras de un oso en Londres." data-genero="Comedia" data-anio="2024"
+				onclick="mostrarInfoPelicula(this)">
+			<img src="/images/memorias_de_un_caracol.jpg" class="carousel-img" alt="Pelicula Memorias de un caracol"
+				data-titulo="Memorias de un caracol"
+				data-descripcion="Una historia única de crecimiento personal y superación." data-genero="Drama"
+				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/better_man.jpg" class="carousel-img" alt="Pelicula Better Man" data-titulo="Better Man"
+				data-descripcion="La historia de un hombre luchando por encontrar su propósito." data-genero="Drama"
+				data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/las_vidas_de_sing_sing.jpg" class="carousel-img" alt="Pelicula Las vidas de Sing Sing"
+				data-titulo="Las vidas de Sing Sing" data-descripcion="Crónica de un prisionero que cambia su destino."
+				data-genero="Crimen" data-anio="2023" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Comedia</div>
+		<div class="image-scroll">
+			<img src="/images/amateur.jpg" class="carousel-img" alt="Pelicula Amateur" data-titulo="Amateur"
+				data-descripcion="La historia cómica de un joven que intenta triunfar en el fútbol."
+				data-genero="Comedia" data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/capitan_america.jpg" class="carousel-img" alt="Pelicula Capitán América"
+				data-titulo="Capitán América" data-descripcion="Un héroe luchando por el bien en tiempos de guerra."
+				data-genero="Acción" data-anio="2025" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/mickey.jpg" class="carousel-img" alt="Pelicula Mickey" data-titulo="Mickey"
+				data-descripcion="Las aventuras del ratón más famoso del mundo." data-genero="Animación"
+				data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/a_working_man.jpg" class="carousel-img" alt="Pelicula A Working Man"
+				data-titulo="A Working Man" data-descripcion="Una reflexión sobre el trabajo y la vida diaria."
+				data-genero="Comedia" data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/estragos.jpg" class="carousel-img" alt="Pelicula Estragos" data-titulo="Estragos"
+				data-descripcion="Un grupo de amigos enfrenta una serie de desastres cómicos." data-genero="Comedia"
+				data-anio="2025" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Terror</div>
+		<div class="image-scroll">
+			<img src="/images/el_exorcista.jpg" class="carousel-img" alt="Pelicula El Exorcista"
+				data-titulo="El Exorcista" data-descripcion="Una historia aterradora de posesión demoníaca."
+				data-genero="Terror" data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/hereditary.jpg" class="carousel-img" alt="Pelicula Hereditary" data-titulo="Hereditary"
+				data-descripcion="El terror se desata en una familia marcada por la tragedia." data-genero="Terror"
+				data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/insidius.jpg" class="carousel-img" alt="Pelicula Insidious" data-titulo="Insidious"
+				data-descripcion="Un hombre debe enfrentar sus miedos más profundos." data-genero="Terror"
+				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/it.jpg" class="carousel-img" alt="Pelicula It" data-titulo="It"
+				data-descripcion="Un grupo de niños enfrentan a un malvado payaso." data-genero="Terror"
+				data-anio="2024" onclick="mostrarInfoPelicula(this)">
+			<img src="/images/saw.jpg" class="carousel-img" alt="Pelicula Saw" data-titulo="Saw"
+				data-descripcion="Un juego mortal que pondrá a prueba tu voluntad de vivir." data-genero="Terror"
+				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+
+		<!-- Footer -->
+		<footer class="mt-5 pt-4 pb-3 text-center">
+			<div class="container">
+				<div class="row mb-3">
+					<div class="col-md-12">
+						<a href="#" class="me-3">Centro de ayuda</a>
+						<a href="#" class="me-3">Aviso legal</a>
+						<a href="#" class="me-3">¿Quiénes somos?</a>
+						<a href="#" class="me-3">Cambiar cookies</a>
+					</div>
+				</div>
+				<div class="mb-3">
+					<span class="me-2">Síguenos:</span>
+					<a href="#" class="text-light me-2"><i class="bi bi-twitter-x"></i></a>
+					<a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
+					<a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+				</div>
+				<div class="text-muted">
+					<h1>2025 FILM24 — Todos los derechos reservados.</h1>
+				</div>
+			</div>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+		<script>
+			function mostrarInfoPelicula(imagen) {
+				const titulo = imagen.getAttribute("data-titulo");
+				const descripcion = imagen.getAttribute("data-descripcion");
+				const genero = imagen.getAttribute("data-genero");
+				const anio = imagen.getAttribute("data-anio");
+				const src = imagen.getAttribute("src");
+
+				document.getElementById("infoPeliculaLabel").textContent = titulo;
+				document.getElementById("modalDescripcion").textContent = descripcion;
+				document.getElementById("modalGenero").textContent = genero;
+				document.getElementById("modalAnio").textContent = anio;
+				document.getElementById("modalImagen").src = src;
+
+				const modal = new bootstrap.Modal(document.getElementById('infoPeliculaModal'));
+				modal.show();
+			}
+
+		</script>
+
+
+
+		<!-- Script para simular envío de correo -->
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const btn = document.getElementById('btn-suscribir');
+				const emailInput = document.getElementById('correo-suscripcion');
+				const mensaje = document.getElementById('mensaje-suscripcion');
+
+				btn.addEventListener('click', () => {
+					const correo = emailInput.value.trim();
+					if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+						mensaje.innerHTML = '<div class="alert alert-danger mt-3 w-50 mx-auto">⚠️ Introduce un correo válido.</div>';
+						return;
+					}
+
+					// Deshabilitar botón y mostrar spinner
+					btn.disabled = true;
+					mensaje.innerHTML = `
+                <div class="spinner-border text-success mt-3" role="status">
+                    <span class="visually-hidden">Enviando...</span>
+                </div>
+            `;
+
+					setTimeout(() => {
+						const correoSeguro = correo.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+						mensaje.innerHTML = `
+                    <div class="alert alert-success mt-3 w-50 mx-auto">
+                        ✅ ¡Correo enviado a <strong>${correoSeguro}</strong> para confirmar!
+                    </div>
+                `;
+						emailInput.value = '';
+						btn.disabled = false;
+					}, 2000);
+				});
+			});
+		</script>
+</body>
+
+</html>

@@ -34,6 +34,11 @@ public class Usuario {
 	private String password;
 	private String rol="USUARIO";
 	
+	//añadido 
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Visualizacion> visualizaciones = new ArrayList<>();
+
+	
 	@ManyToMany
 	@JoinTable(name = "usuario_peliculas", joinColumns = @JoinColumn(name = "usuario_id"),
 	inverseJoinColumns = @JoinColumn(name = "pelicula_id"))

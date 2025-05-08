@@ -102,17 +102,18 @@
 					</tr>
 				</thead>
 				<tbody>
-				    <tr th:each="pelicula : ${listaPeliculas}">
-				        <td>
-				            <img th:src="${pelicula.imagen}" alt="Imagen de la película" class="img-fluid" style="max-height: 150px; object-fit: cover;" />
-				        </td>
-				        <td th:text="${pelicula.titulo}"></td>
-				        <td th:text="${pelicula.anyo}"></td>
-				        <td th:text="${pelicula.director}"></td>
-				        <td th:text="${pelicula.duracion}"></td>
-				        <td th:text="${pelicula.categoria}"></td>
-				        <td th:text="${pelicula.descripcion}"></td>
-				    </tr>
+					<tr th:each="pelicula : ${listaPeliculas}">
+						<td>
+							<img th:src="${pelicula.imagen}" alt="Imagen de la película" class="img-fluid"
+								style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;" />
+						</td>
+						<td th:text="${pelicula.titulo}"></td>
+						<td th:text="${pelicula.anyo}"></td>
+						<td th:text="${pelicula.director}"></td>
+						<td th:text="${pelicula.duracion}"></td>
+						<td th:text="${pelicula.categoria}"></td>
+						<td th:text="${pelicula.descripcion}"></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

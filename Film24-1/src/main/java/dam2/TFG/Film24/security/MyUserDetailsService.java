@@ -14,15 +14,15 @@ import dam2.TFG.Film24.repository.UsuarioRepository;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String correoElectronico) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreoElectronico(correoElectronico)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+	@Override
+	public UserDetails loadUserByUsername(String correoElectronico) throws UsernameNotFoundException {
+		Usuario usuario = usuarioRepository.findByCorreoElectronico(correoElectronico)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        // Devuelve tu clase personalizada MyUserDetails
-        return new MyUserDetails(usuario);
-    }
+		// Devuelve tu clase personalizada MyUserDetails
+		return new MyUserDetails(usuario);
+	}
 }

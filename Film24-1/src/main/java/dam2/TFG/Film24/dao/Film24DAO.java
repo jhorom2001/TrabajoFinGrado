@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dam2.TFG.Film24.modelo.Pelicula;
+import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Resenna;
 import dam2.TFG.Film24.modelo.Usuario;
 import dam2.TFG.Film24.modelo.Visualizacion;
@@ -138,4 +139,24 @@ public class Film24DAO {
 	public List<Visualizacion> obtenerVisualizacionesPorUsuario(Usuario usuario) {
 		return visualizacionRepository.findByUsuario(usuario);
 	}
+	
+	//Alta Producto
+	
+   
+
+    public void altaProducto(Producto producto) {
+        em.persist(producto);
+    }
+    
+    //consultas de productos
+    
+    public Producto consultarProducto(int id) {
+        return em.find(Producto.class, id);
+    }
+
+    public List<Producto> listaProductos() {
+        String jpql = "SELECT p FROM Producto p";
+        return em.createQuery(jpql, Producto.class).getResultList();
+    }
+
 }

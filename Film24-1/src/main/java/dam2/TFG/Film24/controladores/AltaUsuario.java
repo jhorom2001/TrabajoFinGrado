@@ -37,6 +37,6 @@ public class AltaUsuario {
         dao.altaUsuario(usuario);
 
         model.addAttribute("usuarioForm", usuario);
-        return "ConfirmacionesUsuario";
+        return "ConfirmacionRegistro";
     }
 }

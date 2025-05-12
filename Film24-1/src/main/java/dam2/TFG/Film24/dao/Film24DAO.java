@@ -102,10 +102,7 @@ public class Film24DAO {
 	public void asignarPelicula(Usuario u, Pelicula p) {
 		u = usuarioRepository.findById(u.getId()).orElse(null);
 
-		if (u != null) {
-			u.annadirPelicula(p);
-			p.annadirUsuario(u);
-
+		if (u != null && p != null) {
 			// Registrar visualización
 			Visualizacion visualizacion = new Visualizacion();
 			visualizacion.setUsuario(u);
@@ -114,15 +111,44 @@ public class Film24DAO {
 
 			visualizacionRepository.save(visualizacion);
 		} else {
-			throw new IllegalArgumentException("Usuario no encontrado");
+			throw new IllegalArgumentException("Usuario o película no encontrada");
 		}
 	}
 
 	// DEVOLVER PELICULA
-	public void devolverPelicula(Usuario u, Pelicula p) {
-		u.eliminarPelicula(p);
-		p.eliminarUsuario(u);
+	public void finalizarVisualizacion(Usuario usuario, Pelicula pelicula) {
+	    Visualizacion visualizacion = visualizacionRepository.findTopByUsuarioAndPeliculaOrderByFechaVisualizacionDesc(usuario, pelicula);
+
+	    if (visualizacion == null) {
+	        throw new IllegalArgumentException("No se encontró la visualización más reciente para el usuario y la película.");
+	    }
+
+	    visualizacion.setVisualizada(false); // o lo que corresponda para marcarla como finalizada
+	    visualizacionRepository.save(visualizacion);
 	}
+
+	public void actualizarVisualizacion(Visualizacion visualizacion) {
+		visualizacion.setVisualizada(true); // Actualizar el estado a "finalizado"
+		visualizacionRepository.save(visualizacion);
+	}
+
+	// PRODUCTOS
+	public void altaProducto(Producto producto) {
+		em.persist(producto);
+	}
+
+	// consultas de productos
+
+	public Producto consultarProducto(int id) {
+		return em.find(Producto.class, id);
+	}
+
+	public List<Producto> listaProductos() {
+		String jpql = "SELECT p FROM Producto p";
+		return em.createQuery(jpql, Producto.class).getResultList();
+	}
+	
+	
 
 	// CONSULTAS
 	public List<Pelicula> listaPeliculas() {
@@ -135,7 +161,7 @@ public class Film24DAO {
 		return em.createQuery(jpql, Usuario.class).getResultList();
 	}
 
-		//AÑADIDO
+	// AÑADIDO
 	public List<Visualizacion> obtenerVisualizacionesPorUsuario(Usuario usuario) {
 		return visualizacionRepository.findByUsuario(usuario);
 	}
@@ -144,19 +170,6 @@ public class Film24DAO {
 	
    
 
-    public void altaProducto(Producto producto) {
-        em.persist(producto);
-    }
-    
-    //consultas de productos
-    
-    public Producto consultarProducto(int id) {
-        return em.find(Producto.class, id);
-    }
-
-    public List<Producto> listaProductos() {
-        String jpql = "SELECT p FROM Producto p";
-        return em.createQuery(jpql, Producto.class).getResultList();
-    }
+   
 
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Usuario {
@@ -37,12 +38,6 @@ public class Usuario {
 	//añadido 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Visualizacion> visualizaciones = new ArrayList<>();
-
-	
-	@ManyToMany
-	@JoinTable(name = "usuario_peliculas", joinColumns = @JoinColumn(name = "usuario_id"),
-	inverseJoinColumns = @JoinColumn(name = "pelicula_id"))
-	private List<Pelicula> peliculas;
 	
 	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
 	private List<Resenna> resennas;
@@ -58,7 +53,6 @@ public class Usuario {
 		this.edad=edad;
 		this.correoElectronico=correoElectronico;
 		this.password=password;
-		peliculas=new ArrayList<>();
 		resennas=new ArrayList<>();
 		rol="USUARIO";
 	}
@@ -127,21 +121,6 @@ public class Usuario {
 		this.rol = rol;
 	}
 	
-	public void annadirPelicula(Pelicula pelicula) {
-		peliculas.add(pelicula);
-	}
-	
-	public void eliminarPelicula(Pelicula pelicula) {
-		Iterator<Pelicula> it=peliculas.iterator();
-		
-		while(it.hasNext()) {
-			Pelicula p=it.next();
-			if(p.getId()==pelicula.getId()) {
-				it.remove();
-			}
-		}
-	}
-	
 	public String getDireccion() {
 		return direccion;
 	}
@@ -156,14 +135,6 @@ public class Usuario {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	public List<Pelicula> getPeliculas() {
-		return peliculas;
-	}
-
-	public void setPeliculas(List<Pelicula> peliculas) {
-		this.peliculas = peliculas;
 	}
 	
 	public List<Resenna> getResennas() {

@@ -1,3 +1,4 @@
+
 package dam2.TFG.Film24.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,3 @@ public class ConsultaProducto {
         return "listaProducto.html";
     }
 }
-

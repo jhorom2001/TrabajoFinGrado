@@ -27,9 +27,6 @@ public class Pelicula {
 	private String imagen;
 	private boolean visualizada = false;
 
-	@ManyToMany(mappedBy = "peliculas", cascade = CascadeType.ALL)
-	private List<Usuario> usuarios;
-
 	@OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL)
 	private List<Resenna> resennas;
 
@@ -48,7 +45,6 @@ public class Pelicula {
 		this.director = director;
 		this.anyo = anyo;
 		this.duracion = duracion;
-		usuarios = new ArrayList<>();
 		resennas = new ArrayList<>();
 	}
 
@@ -124,13 +120,7 @@ public class Pelicula {
 		this.imagen = imagen;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+	
 
 	public List<Resenna> getResennas() {
 		return resennas;
@@ -138,20 +128,5 @@ public class Pelicula {
 
 	public void setResennas(List<Resenna> resennas) {
 		this.resennas = resennas;
-	}
-
-	public void annadirUsuario(Usuario usuario) {
-		usuarios.add(usuario);
-	}
-
-	public void eliminarUsuario(Usuario usuario) {
-		Iterator<Usuario> it = usuarios.iterator();
-
-		while (it.hasNext()) {
-			Usuario u = it.next();
-			if (u.getId() == usuario.getId()) {
-				it.remove();
-			}
-		}
 	}
 }

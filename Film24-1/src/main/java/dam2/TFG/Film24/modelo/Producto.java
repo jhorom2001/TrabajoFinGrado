@@ -1,3 +1,4 @@
+
 package dam2.TFG.Film24.modelo;
 
 import jakarta.persistence.Entity;
@@ -88,3 +89,4 @@ public class Producto {
 
  
 }
+

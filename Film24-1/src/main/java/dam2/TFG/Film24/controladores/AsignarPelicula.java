@@ -1,6 +1,7 @@
 package dam2.TFG.Film24.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,19 +31,19 @@ public class AsignarPelicula {
 	@PostMapping("/asignarPelicula/submit")
 	public String asignarPeliculasubmit(@RequestParam("peliculaId") int peliculaId, Model model) {
 
-		// Obtener el usuario autenticado desde el contexto de seguridad
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal(); // tu clase personalizada
-		Usuario usuario = userDetails.getUsuario(); // aquí tienes el objeto Usuario completo
+	    // Obtener el usuario autenticado desde el contexto de seguridad
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal(); 
+	    Usuario usuario = userDetails.getUsuario(); 
 
-		// Obtener la película por ID
-		Pelicula pelicula = dao.consultarPelicula(peliculaId);
+	    // Obtener la película por ID
+	    Pelicula pelicula = dao.consultarPelicula(peliculaId);
 
-		if (usuario != null && pelicula != null) {
-			dao.asignarPelicula(usuario, pelicula);
-			return "ConfirmacionVisualizacion";
-		} else {
-			return "Errores.html";
-		}
+	    if (usuario != null && pelicula != null) {
+	        dao.asignarPelicula(usuario, pelicula);
+	        return "ConfirmacionVisualizacion";
+	    } else {
+	        return "Errores.html";
+	    }
 	}
 }

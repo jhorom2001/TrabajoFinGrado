@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
@@ -8,6 +9,7 @@
 	<!-- Bootstrap y estilos -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
 	<style>
 		body {
@@ -133,35 +135,78 @@
 			color: #fff;
 		}
 	</style>
-
 </head>
 
 
-<!-- Informacion de las peliculas -->
-<div class="modal fade" id="infoPeliculaModal" tabindex="-1" aria-labelledby="infoPeliculaLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered">
-		<div class="modal-content bg-dark text-white">
-			<div class="modal-header border-0">
-				<h5 class="modal-title" id="infoPeliculaLabel">Título de la película</h5>
-				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-					aria-label="Cerrar"></button>
-			</div>
-			<div class="modal-body d-flex flex-column flex-md-row">
-				<img id="modalImagen" src="" alt="Imagen de la película" class="img-fluid rounded mb-3 mb-md-0 me-md-4"
-					style="max-width: 300px;">
-				<div>
-					<p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
-					<p><strong>Género:</strong> <span id="modalGenero"></span></p>
-					<p><strong>Año:</strong> <span id="modalAnio"></span></p>
+<body style="background-color: #0d253f;">
+
+	<!-- Informacion de las peliculas -->
+	<div class="modal fade" id="infoPeliculaModal" tabindex="-1" aria-labelledby="infoPeliculaLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content bg-dark text-white">
+				<div class="modal-header border-0">
+					<h5 class="modal-title" id="infoPeliculaLabel">Título de la película</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+						aria-label="Cerrar"></button>
+				</div>
+				<div class="modal-body d-flex flex-column flex-md-row">
+					<img id="modalImagen" src="" alt="Imagen de la película"
+						class="img-fluid rounded mb-3 mb-md-0 me-md-4" style="max-width: 300px;">
+					<div>
+						<p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+						<p><strong>Género:</strong> <span id="modalGenero"></span></p>
+						<p><strong>Año:</strong> <span id="modalAnio"></span></p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
+	<!-- Sección de Blog -->
+	<div class="container mt-5 pt-5">
+		<h2 class="section-title">Nuestro Blog</h2>
+		<div class="row g-4 mt-3 blog-section">
+			<div class="col-md-4">
+				<div class="card bg-dark text-white h-100">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFEAFet1TNVsVFeHHS62YbeZiNkqIp_8rNDA&s"
+						class="card-img-top" alt="Blog 1">
+					<div class="card-body">
+						<h5 class="card-title">5 películas que redefinieron el cine moderno</h5>
+						<p class="card-text">Desde giros inesperados hasta efectos revolucionarios, exploramos títulos
+							que marcaron un antes y un después en la historia del cine.</p>
+						<a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+					</div>
+				</div>
+			</div>
 
+			<div class="col-md-4">
+				<div class="card bg-dark text-white h-100">
+					<img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4" class="card-img-top"
+						alt="Blog 2">
+					<div class="card-body">
+						<h5 class="card-title">Cine indie: 7 joyas ocultas que debes ver</h5>
+						<p class="card-text">Te recomendamos películas independientes que quizás no conoces pero que te
+							impactarán por su originalidad y profundidad.</p>
+						<a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+					</div>
+				</div>
+			</div>
 
-<body>
+			<div class="col-md-4">
+				<div class="card bg-dark text-white h-100">
+					<img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620" class="card-img-top"
+						alt="Blog 3">
+					<div class="card-body">
+						<h5 class="card-title">Cómo elegir tu próxima película según tu estado de ánimo</h5>
+						<p class="card-text">¿Estás feliz, nostálgico o en modo reflexión? Te damos tips y géneros
+							ideales para cada momento emocional.</p>
+						<a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -224,83 +269,68 @@
 			</div>
 		</div>
 
-		<!-- Carruseles -->
-		<div class="section-title">Las joyas de la corona</div>
+		<!-- Carruseles por categoría -->
+		<div class="section-title">Acción</div>
 		<div class="image-scroll">
-			<img src="/images/bird.jpg" class="carousel-img" alt="Pelicula Bird" data-titulo="Bird"
-				data-descripcion="Una historia sobre libertad y música en los barrios de Londres." data-genero="Drama"
-				data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/El_baño_del_diablo.jpg" class="carousel-img" alt="Pelicula El baño del diablo"
-				data-titulo="El baño del diablo" data-descripcion="Un thriller psicológico sobre la supervivencia."
-				data-genero="Terror" data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/Anatomia_de_una_caida.jpg" class="carousel-img" alt="Pelicula Anatomía de una caída"
-				data-titulo="Anatomía de una caída"
-				data-descripcion="Un drama que explora las relaciones humanas tras una tragedia." data-genero="Drama"
-				data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/La_sustancia.jpg" class="carousel-img" alt="Pelicula La sustancia"
-				data-titulo="La sustancia" data-descripcion="Una historia de misterio sobre una sustancia peligrosa."
-				data-genero="Suspenso" data-anio="2022" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/La_estrella_azul.jpg" class="carousel-img" alt="Pelicula La estrella azul"
-				data-titulo="La estrella azul" data-descripcion="Una odisea espacial hacia el futuro de la humanidad."
-				data-genero="Ciencia ficción" data-anio="2025" onclick="mostrarInfoPelicula(this)">
+			<img th:each="pelicula : ${peliculasAccion}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
 		</div>
 
-		<div class="section-title">Nuevos estrenos</div>
+		<div class="section-title">Aventura</div>
 		<div class="image-scroll">
-			<img src="/images/minecraft.jpg" class="carousel-img" alt="Pelicula Minecraft" data-titulo="Minecraft"
-				data-descripcion="Un juego se convierte en una batalla épica por la supervivencia."
-				data-genero="Aventura" data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/paddington.jpg" class="carousel-img" alt="Pelicula Paddington" data-titulo="Paddington"
-				data-descripcion="Las divertidas aventuras de un oso en Londres." data-genero="Comedia" data-anio="2024"
-				onclick="mostrarInfoPelicula(this)">
-			<img src="/images/memorias_de_un_caracol.jpg" class="carousel-img" alt="Pelicula Memorias de un caracol"
-				data-titulo="Memorias de un caracol"
-				data-descripcion="Una historia única de crecimiento personal y superación." data-genero="Drama"
-				data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/better_man.jpg" class="carousel-img" alt="Pelicula Better Man" data-titulo="Better Man"
-				data-descripcion="La historia de un hombre luchando por encontrar su propósito." data-genero="Drama"
-				data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/las_vidas_de_sing_sing.jpg" class="carousel-img" alt="Pelicula Las vidas de Sing Sing"
-				data-titulo="Las vidas de Sing Sing" data-descripcion="Crónica de un prisionero que cambia su destino."
-				data-genero="Crimen" data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img th:each="pelicula : ${peliculasAventura}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
 		</div>
 
 		<div class="section-title">Comedia</div>
 		<div class="image-scroll">
-			<img src="/images/amateur.jpg" class="carousel-img" alt="Pelicula Amateur" data-titulo="Amateur"
-				data-descripcion="La historia cómica de un joven que intenta triunfar en el fútbol."
-				data-genero="Comedia" data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/capitan_america.jpg" class="carousel-img" alt="Pelicula Capitán América"
-				data-titulo="Capitán América" data-descripcion="Un héroe luchando por el bien en tiempos de guerra."
-				data-genero="Acción" data-anio="2025" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/mickey.jpg" class="carousel-img" alt="Pelicula Mickey" data-titulo="Mickey"
-				data-descripcion="Las aventuras del ratón más famoso del mundo." data-genero="Animación"
-				data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/a_working_man.jpg" class="carousel-img" alt="Pelicula A Working Man"
-				data-titulo="A Working Man" data-descripcion="Una reflexión sobre el trabajo y la vida diaria."
-				data-genero="Comedia" data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/estragos.jpg" class="carousel-img" alt="Pelicula Estragos" data-titulo="Estragos"
-				data-descripcion="Un grupo de amigos enfrenta una serie de desastres cómicos." data-genero="Comedia"
-				data-anio="2025" onclick="mostrarInfoPelicula(this)">
+			<img th:each="pelicula : ${peliculasComedia}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Drama</div>
+		<div class="image-scroll">
+			<img th:each="pelicula : ${peliculasDrama}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Ciencia Ficción</div>
+		<div class="image-scroll">
+			<img th:each="pelicula : ${peliculasCienciaFiccion}" th:src="@{${pelicula.imagen}}"
+				th:alt="${pelicula.titulo}" th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
+		</div>
+
+		<div class="section-title">Fantasía</div>
+		<div class="image-scroll">
+			<img th:each="pelicula : ${peliculasFantasia}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
 		</div>
 
 		<div class="section-title">Terror</div>
 		<div class="image-scroll">
-			<img src="/images/el_exorcista.jpg" class="carousel-img" alt="Pelicula El Exorcista"
-				data-titulo="El Exorcista" data-descripcion="Una historia aterradora de posesión demoníaca."
-				data-genero="Terror" data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/hereditary.jpg" class="carousel-img" alt="Pelicula Hereditary" data-titulo="Hereditary"
-				data-descripcion="El terror se desata en una familia marcada por la tragedia." data-genero="Terror"
-				data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/insidius.jpg" class="carousel-img" alt="Pelicula Insidious" data-titulo="Insidious"
-				data-descripcion="Un hombre debe enfrentar sus miedos más profundos." data-genero="Terror"
-				data-anio="2023" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/it.jpg" class="carousel-img" alt="Pelicula It" data-titulo="It"
-				data-descripcion="Un grupo de niños enfrentan a un malvado payaso." data-genero="Terror"
-				data-anio="2024" onclick="mostrarInfoPelicula(this)">
-			<img src="/images/saw.jpg" class="carousel-img" alt="Pelicula Saw" data-titulo="Saw"
-				data-descripcion="Un juego mortal que pondrá a prueba tu voluntad de vivir." data-genero="Terror"
-				data-anio="2023" onclick="mostrarInfoPelicula(this)">
+			<img th:each="pelicula : ${peliculasTerror}" th:src="@{${pelicula.imagen}}" th:alt="${pelicula.titulo}"
+				th:attr="data-titulo=${pelicula.titulo}, 
+                      data-descripcion=${pelicula.descripcion}, 
+                      data-genero=${pelicula.categoria}, 
+                      data-anio=${pelicula.anyo}" class="carousel-img" onclick="mostrarInfoPelicula(this)">
 		</div>
 
 
@@ -369,19 +399,19 @@
 
 					// Deshabilitar botón y mostrar spinner
 					btn.disabled = true;
-					mensaje.innerHTML = `
-                <div class="spinner-border text-success mt-3" role="status">
-                    <span class="visually-hidden">Enviando...</span>
-                </div>
-            `;
+					mensaje.innerHTML =
+						<div class="spinner-border text-success mt-3" role="status">
+							<span class="visually-hidden">Enviando...</span>
+						</div>
+						;
 
 					setTimeout(() => {
 						const correoSeguro = correo.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-						mensaje.innerHTML = `
-                    <div class="alert alert-success mt-3 w-50 mx-auto">
-                        ✅ ¡Correo enviado a <strong>${correoSeguro}</strong> para confirmar!
-                    </div>
-                `;
+						mensaje.innerHTML =
+							<div class="alert alert-success mt-3 w-50 mx-auto">
+								✅ ¡Correo enviado a <strong>${correoSeguro}</strong> para confirmar!
+							</div>
+							;
 						emailInput.value = '';
 						btn.disabled = false;
 					}, 2000);
@@ -391,9 +421,3 @@
 </body>
 
 </html>
-
-</html>
-
-<div>
-	<div class="alert alert-info">Has cerrado sesión</div>
-</div>

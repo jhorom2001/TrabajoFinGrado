@@ -45,8 +45,7 @@ public class AltaPelicula {
         Usuario usuario = userDetails.getUsuario();
 
         List<Visualizacion> visualizaciones = dao.obtenerVisualizacionesPorUsuario(usuario);
-        List<Integer> peliculasVisualizadas = visualizaciones.stream()
-            .filter(Visualizacion::isVisualizada)
+        List<Integer> peliculasVisualizadas = visualizaciones.stream().filter(Visualizacion::isEnProgreso)
             .map(v -> v.getPelicula().getId())
             .toList();
 

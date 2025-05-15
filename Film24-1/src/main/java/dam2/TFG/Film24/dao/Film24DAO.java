@@ -107,7 +107,7 @@ public class Film24DAO {
 			Visualizacion visualizacion = new Visualizacion();
 			visualizacion.setUsuario(u);
 			visualizacion.setPelicula(p);
-			visualizacion.setVisualizada(true);
+			visualizacion.setEnProgreso(true);
 
 			visualizacionRepository.save(visualizacion);
 		} else {
@@ -123,12 +123,12 @@ public class Film24DAO {
 	        throw new IllegalArgumentException("No se encontró la visualización más reciente para el usuario y la película.");
 	    }
 
-	    visualizacion.setVisualizada(false); // o lo que corresponda para marcarla como finalizada
+	    visualizacion.setEnProgreso(false); // o lo que corresponda para marcarla como finalizada
 	    visualizacionRepository.save(visualizacion);
 	}
 
 	public void actualizarVisualizacion(Visualizacion visualizacion) {
-		visualizacion.setVisualizada(true); // Actualizar el estado a "finalizado"
+		visualizacion.setEnProgreso(true); // Actualizar el estado a "finalizado"
 		visualizacionRepository.save(visualizacion);
 	}
 

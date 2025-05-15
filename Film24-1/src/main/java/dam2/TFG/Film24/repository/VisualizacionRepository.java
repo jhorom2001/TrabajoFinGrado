@@ -13,5 +13,6 @@ public interface VisualizacionRepository extends JpaRepository<Visualizacion, In
     Optional<Visualizacion> findByUsuarioAndPelicula(Usuario usuario, Pelicula pelicula);
 	List<Visualizacion> findByUsuario(Usuario usuario);
 	Visualizacion findTopByUsuarioAndPeliculaOrderByFechaVisualizacionDesc(Usuario usuario, Pelicula pelicula);
+	List<Visualizacion> findByUsuarioAndEnProgresoTrue(Usuario usuario);
 
 }

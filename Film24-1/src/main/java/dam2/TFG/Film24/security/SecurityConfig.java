@@ -39,8 +39,8 @@ public class SecurityConfig {
 				"/registroUsuario/submit", "/listaUsuarios", "/eliminarUsuario", "/eliminarUsuario/submit",
 				"/listaPeliculasParaUsuario", "/acercade", "/asignarPelicula", "/asignarPelicula/submit",
 				"/ConfirmacionVisualizacion", "/localizacion", "/devolverPelicula", "/devolverPelicula/submit",
-				"/producto/consulta", "/producto/lista", "/altaProducto", "/altaProducto/submit","/detallePelicula/**","/detallePelicula" ,
-				"/altaResenna/submit/**","/ConfirmacionRegistro", "/css/**", "/js/**", "/images/**")
+				"/producto/consulta", "/producto/lista", "/altaProducto", "/altaProducto/submit","/detallePelicula/**","/detallePelicula",
+				"/visualizacionesEnProgreso", "/altaResenna/submit/**","/ConfirmacionRegistro", "/css/**", "/js/**", "/images/**")
 				
 				.permitAll().anyRequest().authenticated())
 				.formLogin(login -> login.loginPage("/").defaultSuccessUrl("/usuarioLogeado", true)

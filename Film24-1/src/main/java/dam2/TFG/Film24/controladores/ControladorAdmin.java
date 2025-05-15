@@ -55,13 +55,12 @@ public class ControladorAdmin {
     }
 	
 	@GetMapping("/detallePelicula/{id}")
-	public String detallePelicula(@PathVariable("id") int id, Model model) {
-	    Pelicula pelicula = peliculaRepository.findById(id)
-	            .orElseThrow(() -> new RuntimeException("Película no encontrada"));
-	    List<Resenna> resennas = resennaRepository.findByPeliculaId(id);
+    public String detallePelicula(@PathVariable("id") int id, Model model) {
+        Pelicula pelicula = peliculaRepository.findById(id).orElseThrow(() -> new RuntimeException("Película no encontrada"));
+        List<Resenna> resennas = resennaRepository.findByPeliculaId(id);
 
-	    model.addAttribute("pelicula", pelicula);
-	    model.addAttribute("reseñas", resennas);  
-	    return "detallePelicula";
-	}
+        model.addAttribute("pelicula", pelicula);
+        model.addAttribute("resennas", resennas);
+        return "detallePelicula";
+    }
 }

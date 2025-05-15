@@ -1,19 +1,12 @@
 package dam2.TFG.Film24.controladores;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import dam2.TFG.Film24.dao.Film24DAO;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Resenna;
 import dam2.TFG.Film24.modelo.Usuario;
@@ -27,35 +20,35 @@ public class AltaResenna {
 
 	@Autowired
 	private ResennaRepository resennaRepository;
-
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
 	@Autowired
 	private PeliculaRepository peliculaRepository;
 
 	@PostMapping("/altaResenna/submit/{peliculaId}")
 	public String guardarResenna(@PathVariable("peliculaId") int peliculaId,
 			@RequestParam("comentario") String comentario, @RequestParam("puntuacion") int puntuacion,
-			Authentication authentication) {
+			Authentication authentication, RedirectAttributes redirectAttributes) {
 
-		// Obtener el usuario actual
 		String correo = authentication.getName();
 		Usuario usuario = usuarioRepository.findByCorreoElectronico(correo)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-		// Obtener la película
 		Pelicula pelicula = peliculaRepository.findById(peliculaId)
 				.orElseThrow(() -> new RuntimeException("Película no encontrada"));
 
-		// Crear una nueva reseña
+		Optional<Resenna> existente = resennaRepository.findByUsuarioAndPelicula(usuario, pelicula);
+
+		if (existente.isPresent()) {
+			redirectAttributes.addFlashAttribute("error", "Ya has enviado una reseña para la película " + pelicula.getTitulo() + ".");
+			return "redirect:/detallePelicula/" + peliculaId;
+		}
+
 		Resenna resenna = new Resenna(comentario, puntuacion);
 		resenna.setUsuario(usuario);
 		resenna.setPelicula(pelicula);
-
-		// Guardar la reseña
 		resennaRepository.save(resenna);
-
+		
 		return "redirect:/detallePelicula/" + peliculaId;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dam2.TFG.Film24.modelo.Noticia;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Resenna;
@@ -148,8 +149,20 @@ public class Film24DAO {
 		return em.createQuery(jpql, Producto.class).getResultList();
 	}
 	
+	//NOTICIAS
+	public void altaNoticia(Noticia noticia) {
+		em.persist(noticia);
+	}
 	
-
+	public void eliminarNoticia(Noticia noticia) {
+		em.remove(noticia);
+	}
+	
+	public Noticia consultarNoticia(int id) {
+		return em.find(Noticia.class, id);
+	}
+	
+	
 	// CONSULTAS
 	public List<Pelicula> listaPeliculas() {
 		String jpql = "SELECT p FROM Pelicula p";
@@ -159,6 +172,11 @@ public class Film24DAO {
 	public List<Usuario> listaUsuarios() {
 		String jpql = "SELECT u FROM Usuario u";
 		return em.createQuery(jpql, Usuario.class).getResultList();
+	}
+	
+	public List<Noticia> listaNoticias() {
+		String jpql = "SELECT n FROM Noticia n";
+		return em.createQuery(jpql, Noticia.class).getResultList();
 	}
 
 	// AÑADIDO

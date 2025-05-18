@@ -14,10 +14,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
     <style>
         body {
-            background: #f8f9fa;
+			background: url('https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNpbmVtYXxlbnwwfHwwfHx8MA%3D%3D') no-repeat center center fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding-top: 70px;
             padding-bottom: 70px;
+			background-size: cover;
         }
 
         .navbar {
@@ -97,7 +98,7 @@
 <body>
     <nav class="navbar fixed-top navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-film"></i> Film24 Blog</a>
+            <a class="navbar-brand" href="/usuarioLogeado"><i class="fas fa-film"></i> Film24 Blog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -118,9 +119,9 @@
             <div class="col-md-8 offset-md-2">
 
                 <div th:each="noticia : ${listaNoticias}" class="blog-post animate__animated animate__fadeInUp">
-                    <img th:src="${noticia.imagenUrl}" alt="Imagen noticia" />
+                    <img th:src="${noticia.imagenUrl}" alt="Imagen noticia"/>
                     <div class="post-content">
-                        <a th:href="@{'/noticia/' + ${noticia.id}}" class="post-title" th:text="${noticia.titulo}"></a>
+                        <a th:href="@{'/detalleNoticia/' + ${noticia.id}}" class="post-title" th:text="${noticia.titulo}"></a>
                         <p class="post-snippet" th:text="${#strings.abbreviate(noticia.contenido, 150)}"></p>
                         <div class="post-meta">
                             <!-- Aquí podrías poner fecha o autor si tienes esos datos -->

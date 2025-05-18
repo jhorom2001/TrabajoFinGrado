@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${noticia.titulo}">Detalle Noticia</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/images/logo.png">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: 'Segoe UI', sans-serif;
+			background: url('https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNpbmVtYXxlbnwwfHwwfHx8MA%3D%3D') no-repeat center center fixed;
+			background-size: cover;
+			position: relative;
+			min-height: 100vh;
+			color: #fff;
+		}
+
+		.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.6);
+			z-index: 1;
+		}
+
+		.post-container {
+			position: relative;
+			z-index: 2;
+			max-width: 800px;
+			margin: 80px auto;
+			background: rgba(255, 255, 255, 0.95);
+			color: #333;
+			border-radius: 15px;
+			padding: 40px;
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+			animation: fadeIn 1s ease-in-out;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.post-title {
+			font-size: 2.5rem;
+			font-weight: 700;
+			color: #2c3e50;
+			margin-bottom: 10px;
+		}
+
+		.post-meta {
+			font-size: 0.95rem;
+			color: #777;
+			margin-bottom: 25px;
+		}
+
+		.post-image {
+			width: 100%;
+			max-height: 400px;
+			object-fit: cover;
+			border-radius: 10px;
+			margin-bottom: 30px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		}
+
+		.post-content {
+			font-size: 1.15rem;
+			line-height: 1.7;
+		}
+
+		.back-link {
+			display: inline-block;
+			margin-top: 30px;
+			text-decoration: none;
+			color: #007bff;
+			font-weight: 600;
+		}
+
+		.back-link:hover {
+			text-decoration: underline;
+		}
+
+		@media (max-width: 576px) {
+			.post-container {
+				padding: 25px;
+			}
+
+			.post-title {
+				font-size: 2rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="overlay"></div>
+
+	<div class="container">
+		<div class="post-container">
+			<h1 class="post-title" th:text="${noticia.titulo}">Título de la Noticia</h1>
+
+			<p class="post-meta">
+				Publicado el <span th:text="${#temporals.format(noticia.fecha, 'dd/MM/yyyy')}">15/05/2025</span>
+			</p>
+
+			<img th:if="${noticia.imagenUrl != null}" th:src="${noticia.imagenUrl}" alt="Imagen noticia" class="post-image"/>
+
+			<div class="post-content" th:text="${noticia.contenido}">
+				Contenido de la noticia...
+			</div>
+
+			<a href="/postsParaUsuario" class="back-link">&larr; Volver a noticias</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

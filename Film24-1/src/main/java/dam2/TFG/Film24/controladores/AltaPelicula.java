@@ -2,6 +2,7 @@ package dam2.TFG.Film24.controladores;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -44,8 +45,7 @@ public class AltaPelicula {
         Usuario usuario = userDetails.getUsuario();
 
         List<Visualizacion> visualizaciones = dao.obtenerVisualizacionesPorUsuario(usuario);
-        List<Integer> peliculasVisualizadas = visualizaciones.stream()
-            .filter(Visualizacion::isVisualizada)
+        List<Integer> peliculasVisualizadas = visualizaciones.stream().filter(Visualizacion::isEnProgreso)
             .map(v -> v.getPelicula().getId())
             .toList();
 

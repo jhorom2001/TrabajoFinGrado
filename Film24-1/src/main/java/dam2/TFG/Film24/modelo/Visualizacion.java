@@ -24,7 +24,7 @@ public class Visualizacion {
     @ManyToOne
     private Pelicula pelicula;
 
-    private boolean visualizada;
+    private boolean enProgreso;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -57,16 +57,16 @@ public class Visualizacion {
     public void setPelicula(Pelicula pelicula) {
         this.pelicula = pelicula;
     }
+    
+    public boolean isEnProgreso() {
+		return enProgreso;
+	}
 
-    public boolean isVisualizada() {
-        return visualizada;
-    }
+	public void setEnProgreso(boolean enProgreso) {
+		this.enProgreso = enProgreso;
+	}
 
-    public void setVisualizada(boolean visualizada) {
-        this.visualizada = visualizada;
-    }
-
-    public LocalDateTime getFechaVisualizacion() {
+	public LocalDateTime getFechaVisualizacion() {
         return fechaVisualizacion;
     }
 

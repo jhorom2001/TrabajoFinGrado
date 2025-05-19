@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dam2.TFG.Film24.modelo.Pedido;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Resenna;
@@ -137,7 +138,7 @@ public class Film24DAO {
 		em.persist(producto);
 	}
 
-	// consultas de productos
+	// consultas de productos y pedidos
 
 	public Producto consultarProducto(int id) {
 		return em.find(Producto.class, id);
@@ -147,6 +148,16 @@ public class Film24DAO {
 		String jpql = "SELECT p FROM Producto p";
 		return em.createQuery(jpql, Producto.class).getResultList();
 	}
+	
+	public void altaPedido(Pedido pedido) {
+	    em.persist(pedido);
+	}
+	
+	public Producto buscarProductoPorId(Long id) {
+	    
+		return em.find(Producto.class, id);
+	}
+
 	
 	
 
@@ -169,6 +180,10 @@ public class Film24DAO {
 	//Alta Producto
 	
    
+	//Usuario logueado en tienda
+	public Usuario obtenerUsuarioPorCorreoElectronico(String correo) {
+	    return usuarioRepository.findByCorreoElectronico(correo).orElse(null);
+	}
 
    
 

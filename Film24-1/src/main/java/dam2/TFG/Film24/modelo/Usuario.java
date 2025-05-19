@@ -42,6 +42,10 @@ public class Usuario {
 	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
 	private List<Resenna> resennas;
 	
+	//Añado lista de pedidos
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Usuario() {
 		
 	}
@@ -148,4 +152,12 @@ public class Usuario {
 	public boolean esAdmin() {
         return "ADMIN".equalsIgnoreCase(this.rol);
     }	
+	
+	public List<Pedido> getPedidos() {
+	    return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+	    this.pedidos = pedidos;
+	}
 }

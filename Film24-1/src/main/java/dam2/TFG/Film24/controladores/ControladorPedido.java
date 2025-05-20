@@ -104,6 +104,6 @@ public class ControladorPedido {
     @GetMapping("/confirmado")
     public String pedidoConfirmado() {
         System.out.println("Mostrando página de pedido confirmado.");
-        return "confirmado";
+        return "ConfirmacionesUsuario";
     }
 }

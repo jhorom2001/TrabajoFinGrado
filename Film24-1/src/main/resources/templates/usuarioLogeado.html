@@ -1,140 +1,338 @@
+
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Inicio Usuarios</title>
+	<title>FilmWorld - Tu portal de cine</title>
+	<meta name="description"
+		content="Descubre las mejores películas, series y documentales en nuestra plataforma de streaming.">
 
 	<!-- Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap"
+		rel="stylesheet">
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 	<style>
+		:root {
+			--primary-color: #005f73;
+			--secondary-color: #0a9396;
+			--accent-color: #ee9b00;
+			--dark-color: #001219;
+		}
+
 		body {
 			background-color: #f4f4f9;
 			font-family: 'Poppins', sans-serif;
 			margin: 0;
 			padding: 0;
 			color: #333;
+			line-height: 1.6;
 		}
-
-		.nav-link.tienda {
-			color: #ffcc00;
-			font-weight: 700;
-			background-color: #005f73;
-			border-radius: 5px;
-			padding: 8px 12px;
-			transition: background-color 0.3s ease;
-		}
-
-		.nav-link.tienda:hover {
-			background-color: #008e7d;
-			color: #fff;
-		}
-
-
 
 		.navbar {
-			background-color: #00394d;
+			background-color: var(--dark-color);
 			position: fixed;
 			width: 100%;
 			top: 0;
 			z-index: 1000;
+			box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+			padding: 15px 0;
+			transition: all 0.3s ease;
+		}
+
+		.navbar.scrolled {
+			padding: 10px 0;
+			background-color: rgba(0, 30, 45, 0.95);
+			backdrop-filter: blur(10px);
 		}
 
 		.navbar-brand {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: white;
+			font-family: 'Montserrat', sans-serif;
+			display: flex;
+			align-items: center;
+		}
+
+		.navbar-brand i {
+			color: var(--accent-color);
+			margin-right: 10px;
 			font-size: 1.5rem;
-			font-weight: 600;
-			color: #fff;
 		}
 
 		.nav-link {
-			color: #fff;
+			color: white;
 			font-weight: 500;
+			padding: 8px 15px;
+			margin: 0 5px;
+			position: relative;
+			transition: all 0.3s ease;
 		}
 
-		.nav-link:hover {
-			color: #00bfa6;
+		.nav-link:before {
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 2px;
+			bottom: 0;
+			left: 0;
+			background-color: var(--accent-color);
+			transition: width 0.3s ease;
+		}
+
+		.nav-link:hover:before {
+			width: 100%;
+		}
+
+		.nav-link.tienda {
+			background-color: var(--accent-color);
+			border-radius: 50px;
+			padding: 8px 20px;
+			margin-left: 15px;
+			font-weight: 600;
+		}
+
+		.nav-link.tienda:before {
+			display: none;
+		}
+
+		.nav-link.tienda:hover {
+			background-color: #d08a00;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		}
 
 		.main-container {
-			margin-top: 80px;
-			padding: 40px 10px;
-			text-align: center;
+			margin-top: 100px;
+			padding: 40px 0;
+		}
+
+		.hero-section {
+			background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+			color: white;
+			padding: 80px 0;
+			border-radius: 15px;
+			margin-bottom: 40px;
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.hero-section:before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: url('https://via.placeholder.com/1920x1080') center/cover no-repeat;
+			opacity: 0.15;
+			z-index: 0;
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
 		}
 
 		h1 {
-			color: #00394d;
-			font-size: 2.5rem;
+			color: white;
+			font-size: 3rem;
 			margin-bottom: 20px;
+			font-weight: 700;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 		}
 
-		h3 {
-			color: #333;
-			font-weight: 400;
+		.hero-subtitle {
+			font-size: 1.3rem;
+			margin-bottom: 30px;
+			max-width: 700px;
+			margin: 0 auto 30px auto;
+		}
+
+		.features-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 30px;
+			padding: 0 20px;
 		}
 
 		.card {
-			background-color: rgb(0, 128, 192);
-			border-radius: 10px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-			margin: 20px;
+			background: white;
+			border-radius: 15px;
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 			padding: 30px;
 			text-align: center;
-			transition: all 0.3s ease-in-out;
-			color: white;
+			transition: all 0.3s ease;
+			max-width: 350px;
+			width: 100%;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.card:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 5px;
+			background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
 		}
 
 		.card:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+			transform: translateY(-10px);
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+		}
+
+		.card-icon {
+			font-size: 3rem;
+			color: var(--accent-color);
+			margin-bottom: 20px;
+		}
+
+		.card-title {
+			font-size: 1.5rem;
+			font-weight: 600;
+			margin-bottom: 15px;
+			color: var(--dark-color);
+		}
+
+		.card-text {
+			color: #666;
+			margin-bottom: 25px;
 		}
 
 		.card img {
-			width: 200px;
-			height: 150px;
-			border-radius: 8px;
-			margin: 0 auto 20px auto;
-			display: block;
+			width: 100%;
+			height: 200px;
+			object-fit: cover;
+			border-radius: 10px;
+			margin-bottom: 20px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 		}
 
-
-		.button {
-			background-color: #00bfa6;
-			color: white;
-			padding: 12px 30px;
-			font-size: 16px;
-			border-radius: 50px;
+		.btn-primary {
+			background-color: var(--accent-color);
 			border: none;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
+			padding: 12px 30px;
+			font-size: 1rem;
+			font-weight: 500;
+			border-radius: 50px;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 10px rgba(238, 155, 0, 0.3);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 		}
 
-		.button:hover {
-			background-color: #008e7d;
+		.btn-primary:hover {
+			background-color: #d08a00;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 15px rgba(238, 155, 0, 0.4);
 		}
 
 		.footer {
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-			background-color: #00394d;
+			background-color: var(--dark-color);
 			color: white;
+			padding: 40px 0 20px;
+			margin-top: 60px;
+		}
+
+		.footer-logo {
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 20px;
+			display: inline-block;
+		}
+
+		.footer-links h5 {
+			font-size: 1.2rem;
+			margin-bottom: 20px;
+			position: relative;
+			padding-bottom: 10px;
+		}
+
+		.footer-links h5:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 50px;
+			height: 2px;
+			background-color: var(--accent-color);
+		}
+
+		.footer-links ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		.footer-links li {
+			margin-bottom: 10px;
+		}
+
+		.footer-links a {
+			color: #ccc;
+			transition: color 0.3s ease;
+			text-decoration: none;
+		}
+
+		.footer-links a:hover {
+			color: white;
+		}
+
+		.social-icons {
+			display: flex;
+			gap: 15px;
+			margin-top: 20px;
+		}
+
+		.social-icons a {
+			color: white;
+			background-color: rgba(255, 255, 255, 0.1);
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+		}
+
+		.social-icons a:hover {
+			background-color: var(--accent-color);
+			transform: translateY(-3px);
+		}
+
+		.footer-note {
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			margin-top: 30px;
 			text-align: center;
-			padding: 7px 0;
+			color: #aaa;
+			font-size: 0.9rem;
 		}
 	</style>
 </head>
 
 <body>
-
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark">
-			<div class="container-fluid">
-				<a class="navbar-brand" th:href="@{/}">Películas</a>
+			<div class="container">
+				<a class="navbar-brand" th:href="@{/}">
+					<i class="fas fa-film"></i>Pelix25
+				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -150,20 +348,40 @@
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/localizacion}">Localización</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/listaPeliculasParaUsuario}">Elige entre todas nuestras
-								peliculas</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								Películas
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" th:href="@{/listaPeliculasParaUsuario}">Catálogo
+										completo</a></li>
+								<li><a class="dropdown-item" th:href="@{/buscarPorTitulo}">Buscar por título</a></li>
+								<li><a class="dropdown-item" th:href="@{/buscarPorCategoria}">Buscar por categoría</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" th:href="@{/visualizacionesEnProgreso}">Mis Películas</a>
+								</li>
+							</ul>
 						</li>
+
+
 						<li class="nav-item">
-							<a class="nav-link" th:href="@{/visualizacionesEnProgreso}">Mis Peliculas</a>
+							<a class="nav-link" th:href="@{/listaPedidos}">Mis Pedidos</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/postsParaUsuario}">Blog</a>
 						</li>
+
+
 						<li class="nav-item">
 							<form th:action="@{/logout}" method="post" style="display: inline;">
 								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-								<button type="submit" class="btn btn-danger ms-2">Cerrar sesión</button>
+								<button type="submit" class="btn btn-outline-light ms-2">
+									<i class="fas fa-sign-out-alt me-1"></i> Cerrar sesión
+								</button>
 							</form>
 						</li>
 					</ul>
@@ -173,38 +391,128 @@
 	</header>
 
 	<main class="main-container">
-		<h1>Página de Películas</h1>
-		<h3>Explora nuestras opciones y encuentra tus películas favoritas</h3>
+		<div class="container">
 
-		<div class="card">
-			<img th:src="@{/images/bob.gif}" alt="Películas">
-			<h5>¡Descubre las mejores películas!</h5>
-			<a th:href="@{/multifilms}">
-				<button class="button">Ver películas</button>
-			</a>
-		</div>
-		<div class="card">
-			<h5>¿Buscas algo específico?</h5>
-			<a th:href="@{/peliculasPorNombre}">
-				<button class="button">Buscar por título</button>
-			</a>
-		</div>
+			<section class="hero-section animate__animated animate__fadeIn">
+				<div class="hero-content text-center">
+					<h1 class="animate__animated animate__fadeInDown">Bienvenido a Pelix25</h1>
+					<p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
+						Explora nuestro catálogo exclusivo de películas, series y documentales.
+						Disfruta del mejor contenido cuando y donde quieras.
+					</p>
+					<a th:href="@{/peliculasMasPopulares}"
+						class="btn btn-primary animate__animated animate__fadeInUp animate__delay-2s">
+						Comenzar a explorar <i class="fas fa-arrow-right"></i>
+					</a>
+				</div>
+			</section>
 
-		<div class="card">
-			<h5>¿Prefieres buscar por categoría?</h5>
-			<a th:href="@{/peliculasCliente}">
-				<button class="button">Buscar por categoría</button>
-			</a>
+			<section class="features-section">
+				<div class="features-container">
+
+					<div class="card animate__animated animate__fadeInUp animate__delay-1s">
+						<div class="card-icon">
+							<i class="fas fa-search"></i>
+						</div>
+						<h3 class="card-title">Búsqueda avanzada</h3>
+						<p class="card-text">
+							Encuentra exactamente lo que buscas con nuestro potente motor de búsqueda.
+						</p>
+						<a th:href="@{/buscarPorTitulo}" class="btn btn-primary">
+							Buscar por título <i class="fas fa-search"></i>
+						</a>
+					</div>
+
+					<div class="card animate__animated animate__fadeInUp animate__delay-2s">
+						<img th:src="@{/images/bob.gif}" alt="Películas populares" class="img-fluid">
+						<h3 class="card-title">Películas populares</h3>
+						<p class="card-text">
+							Descubre las películas más vistas y mejor valoradas por nuestra comunidad.
+						</p>
+						<a th:href="@{/peliculasMasPopulares}" class="btn btn-primary">
+							Ver películas <i class="fas fa-play"></i>
+						</a>
+					</div>
+
+					<div class="card animate__animated animate__fadeInUp animate__delay-3s">
+						<div class="card-icon">
+							<i class="fas fa-tags"></i>
+						</div>
+						<h3 class="card-title">Explora por categorías</h3>
+						<p class="card-text">
+							Encuentra fácilmente contenido por género, año o temática.
+						</p>
+						<a th:href="@{/buscarPorCategoria}" class="btn btn-primary">
+							Ver categorías <i class="fas fa-list"></i>
+						</a>
+					</div>
+				</div>
+			</section>
 		</div>
 	</main>
 
+	<!-- Footer -->
 	<footer class="footer">
-		<p>Authors: Freddy Andrade, Javier Ibáñez, Jhonatan Romero</p>
-		<p>Company Films 2025</p>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-4">
+					<span class="footer-logo">
+						<i class="fas fa-film"></i> Pelix25
+					</span>
+					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
+					<div class="social-icons">
+						<a href="#"><i class="fab fa-facebook-f"></i></a>
+						<a href="#"><i class="fab fa-twitter"></i></a>
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+				<div class="col-md-2 col-6 mb-4">
+					<div class="footer-links">
+						<h5>Enlaces</h5>
+						<ul>
+							<li><a th:href="@{/}">Inicio</a></li>
+							<li><a th:href="@{/acercade}">Acerca de</a></li>
+							<li><a th:href="@{/producto/lista}">Tienda</a></li>
+							<li><a th:href="@{/localizacion}">Localización</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-6 mb-4">
+					<div class="footer-links">
+						<h5>Películas</h5>
+						<ul>
+							<li><a th:href="@{/listaPeliculasParaUsuario}">Catálogo</a></li>
+							<li><a th:href="@{/buscarPorTitulo}">Buscar</a></li>
+							<li><a th:href="@{/buscarPorCategoria}">Categorías</a></li>
+							<li><a th:href="@{/visualizacionesEnProgreso}">Mis películas</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="footer-links">
+						<h5>Contacto</h5>
+						<ul>
+							<li><i class="fas fa-map-marker-alt me-2"></i>C/Gascueña 35 - 28022 Madrid España
+
+							</li>
+							<li><i class="fas fa-phone me-2"></i>+34 699 596 940
+
+							</li>
+							<li><i class="fas fa-envelope me-2"></i>Atención al cliente@filmstorespain.es</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-note">
+				<p>Company films 2025</p>
+				<p>Autores: Freddy Andrade, Javier Ibáñez, Jhonatan Romero</p>
+			</div>
+		</div>
 	</footer>
 
 	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

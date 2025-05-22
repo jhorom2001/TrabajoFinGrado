@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
@@ -9,6 +8,9 @@
 	<!-- Bootstrap y estilos -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
 	<style>
@@ -120,19 +122,95 @@
 			color: #00a7d9;
 		}
 
-		footer {
-			background-color: #000;
-			color: #bbb;
-			font-size: 0.9rem;
+		footer.footer {
+			background-color: #000000;
+			width: 100vw;
+			position: relative;
+			left: 50%;
+			right: 50%;
+			margin-left: -50vw;
+			margin-right: -50vw;
+			padding-top: 40px;
+			padding-bottom: 20px;
+			color: white;
+			margin-top: 60px;
 		}
 
-		footer a {
-			color: #bbb;
+
+
+		.footer-logo {
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 20px;
+			display: inline-block;
+		}
+
+		.footer-links h5 {
+			font-size: 1.2rem;
+			margin-bottom: 20px;
+			position: relative;
+			padding-bottom: 10px;
+		}
+
+		.footer-links h5:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 50px;
+			height: 2px;
+			background-color: var(--accent-color);
+		}
+
+		.footer-links ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		.footer-links li {
+			margin-bottom: 10px;
+		}
+
+		.footer-links a {
+			color: #ccc;
+			transition: color 0.3s ease;
 			text-decoration: none;
 		}
 
-		footer a:hover {
-			color: #fff;
+		.footer-links a:hover {
+			color: white;
+		}
+
+		.social-icons {
+			display: flex;
+			gap: 15px;
+			margin-top: 20px;
+		}
+
+		.social-icons a {
+			color: white;
+			background-color: rgba(255, 255, 255, 0.1);
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+		}
+
+		.social-icons a:hover {
+			background-color: var(--accent-color);
+			transform: translateY(-3px);
+		}
+
+		.footer-note {
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			margin-top: 30px;
+			text-align: center;
+			color: #aaa;
+			font-size: 0.9rem;
 		}
 	</style>
 </head>
@@ -334,25 +412,61 @@
 		</div>
 
 
-		<!-- Footer -->
-		<footer class="mt-5 pt-4 pb-3 text-center">
+		<footer class="footer bg-black text-white py-5 mt-5">
 			<div class="container">
-				<div class="row mb-3">
-					<div class="col-md-12">
-						<a href="#" class="me-3">Centro de ayuda</a>
-						<a href="#" class="me-3">Aviso legal</a>
-						<a href="#" class="me-3">¿Quiénes somos?</a>
-						<a href="#" class="me-3">Cambiar cookies</a>
+				<div class="row">
+					<div class="col-md-4 mb-4">
+						<span class="footer-logo">
+							<i class="fas fa-film"></i> Pelix25
+						</span>
+						<p>Tu portal de cine favorito con las mejores películas y documentales.</p>
+						<div class="social-icons">
+							<a href="#"><i class="fab fa-facebook-f"></i></a>
+							<a href="#"><i class="fab fa-twitter"></i></a>
+							<a href="#"><i class="fab fa-instagram"></i></a>
+							<a href="#"><i class="fab fa-youtube"></i></a>
+						</div>
+					</div>
+					<div class="col-md-2 col-6 mb-4">
+						<div class="footer-links">
+							<h5>Enlaces</h5>
+							<ul>
+								<li><a th:href="@{/}">Inicio</a></li>
+								<li><a th:href="@{/acercade}">Acerca de</a></li>
+								<li><a th:href="@{/producto/lista}">Tienda</a></li>
+								<li><a th:href="@{/localizacion}">Localización</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-2 col-6 mb-4">
+						<div class="footer-links">
+							<h5>Películas</h5>
+							<ul>
+								<li><a th:href="@{/listaPeliculasParaUsuario}">Catálogo</a></li>
+								<li><a th:href="@{/buscarPorTitulo}">Buscar</a></li>
+								<li><a th:href="@{/buscarPorCategoria}">Categorías</a></li>
+								<li><a th:href="@{/visualizacionesEnProgreso}">Mis películas</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="footer-links">
+							<h5>Contacto</h5>
+							<ul>
+								<li><i class="fas fa-map-marker-alt me-2"></i>C/Gascueña 35 - 28022 Madrid España
+
+								</li>
+								<li><i class="fas fa-phone me-2"></i>+34 699 596 940
+
+								</li>
+								<li><i class="fas fa-envelope me-2"></i>Atención al cliente@filmstorespain.es</li>
+							</ul>
+						</div>
 					</div>
 				</div>
-				<div class="mb-3">
-					<span class="me-2">Síguenos:</span>
-					<a href="#" class="text-light me-2"><i class="bi bi-twitter-x"></i></a>
-					<a href="#" class="text-light me-2"><i class="bi bi-instagram"></i></a>
-					<a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
-				</div>
-				<div class="text-muted">
-					<h1>2025 FILM24 — Todos los derechos reservados.</h1>
+				<div class="footer-note">
+					<p>Company films 2025</p>
+					<p>Autores: Freddy Andrade, Javier Ibáñez, Jhonatan Romero</p>
 				</div>
 			</div>
 		</footer>
@@ -360,38 +474,17 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
-		<script>
-			function mostrarInfoPelicula(imagen) {
-				const titulo = imagen.getAttribute("data-titulo");
-				const descripcion = imagen.getAttribute("data-descripcion");
-				const genero = imagen.getAttribute("data-genero");
-				const anio = imagen.getAttribute("data-anio");
-				const src = imagen.getAttribute("src");
-
-				document.getElementById("infoPeliculaLabel").textContent = titulo;
-				document.getElementById("modalDescripcion").textContent = descripcion;
-				document.getElementById("modalGenero").textContent = genero;
-				document.getElementById("modalAnio").textContent = anio;
-				document.getElementById("modalImagen").src = src;
-
-				const modal = new bootstrap.Modal(document.getElementById('infoPeliculaModal'));
-				modal.show();
-			}
-
-		</script>
-
-
-
-		<!-- Script para simular envío de correo -->
 		<script>
 			document.addEventListener('DOMContentLoaded', () => {
 				const btn = document.getElementById('btn-suscribir');
 				const emailInput = document.getElementById('correo-suscripcion');
 				const mensaje = document.getElementById('mensaje-suscripcion');
 
-				btn.addEventListener('click', () => {
+				btn.addEventListener('click', (e) => {
+					e.preventDefault(); // Evita recarga accidental si está dentro de un formulario
+
 					const correo = emailInput.value.trim();
+
 					if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
 						mensaje.innerHTML = '<div class="alert alert-danger mt-3 w-50 mx-auto">⚠️ Introduce un correo válido.</div>';
 						return;
@@ -399,25 +492,25 @@
 
 					// Deshabilitar botón y mostrar spinner
 					btn.disabled = true;
-					mensaje.innerHTML =
-						<div class="spinner-border text-success mt-3" role="status">
-							<span class="visually-hidden">Enviando...</span>
-						</div>
-						;
+					mensaje.innerHTML = `
+        <div class="spinner-border text-success mt-3" role="status">
+          <span class="visually-hidden">Enviando...</span>
+        </div>`;
 
 					setTimeout(() => {
 						const correoSeguro = correo.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-						mensaje.innerHTML =
-							<div class="alert alert-success mt-3 w-50 mx-auto">
-								✅ ¡Correo enviado a <strong>${correoSeguro}</strong> para confirmar!
-							</div>
-							;
+						mensaje.innerHTML = `
+          <div class="alert alert-success mt-3 w-50 mx-auto">
+            ✅ ¡Correo enviado a <strong>${correoSeguro}</strong> para confirmar!
+          </div>`;
 						emailInput.value = '';
 						btn.disabled = false;
 					}, 2000);
 				});
 			});
 		</script>
+
+
 </body>
 
 </html>

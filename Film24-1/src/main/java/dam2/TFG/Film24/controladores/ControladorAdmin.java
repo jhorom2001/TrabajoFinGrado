@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dam2.TFG.Film24.dao.Film24DAO;
+import dam2.TFG.Film24.modelo.Noticia;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Resenna;
@@ -58,6 +59,15 @@ public class ControladorAdmin {
 		model.addAttribute("listaUsuarios", listaUsuarios);
 		return "listaUsuarios";
 	}
+	
+	
+	@GetMapping("/listaNoticias")
+	public String obtenerPosts(Model model) {
+		List<Noticia> listaNoticias = dao.listaNoticias();
+		model.addAttribute("listaNoticias", listaNoticias);
+		return "listaNoticias";
+	}
+
 
 	@GetMapping("/detallePelicula/{id}")
 	public String detallePelicula(@PathVariable("id") int id, Model model) {
@@ -69,6 +79,9 @@ public class ControladorAdmin {
 		model.addAttribute("resennas", resennas);
 		return "detallePelicula";
 	}
+	
+	
+	
 
 	@Autowired
 	private ProductoRepository productoRepository;
@@ -89,26 +102,23 @@ public class ControladorAdmin {
 	}
 
 	@PostMapping("/eliminarProducto/submit")
-	public String eliminarProductoSubmit(@RequestParam("id") int id, @RequestParam("accion") String accion,
-			Model model) {
-		if ("delete".equals(accion)) {
-			if (productoRepository.existsById(id)) {
-
-				if (lineaPedidoRepository.existsByProductoId(id)) {
-					model.addAttribute("mensaje", "No se puede eliminar el producto porque está asociado a pedidos.");
-					return "error";
-				}
-
-				productoRepository.deleteById(id);
-				model.addAttribute("mensaje", "Producto eliminado correctamente.");
-				return "confirmacionEliminarProducto";
-			} else {
-				model.addAttribute("mensaje", "Producto no encontrado.");
-				return "error";
-			}
-		}
-
-		return "redirect:/listaProductosAdmin";
+	public String eliminarProductoSubmit(@RequestParam("id") int id, @RequestParam("accion") String accion, Model model) {
+	    if ("delete".equals(accion)) {
+	        if (productoRepository.existsById(id)) {
+	            if (lineaPedidoRepository.existsByProductoId(id)) {
+	                model.addAttribute("estado", "errorVinculado");
+	                return "confirmacionEliminarProducto";
+	            }
+	            productoRepository.deleteById(id);
+	            model.addAttribute("estado", "exito");
+	            return "confirmacionEliminarProducto";
+	        } else {
+	            model.addAttribute("estado", "errorNoEncontrado");
+	            return "confirmacionEliminarProducto";
+	        }
+	    }
+	    return "redirect:/listaProductosAdmin";
 	}
+
 
 }

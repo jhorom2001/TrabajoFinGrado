@@ -59,6 +59,8 @@
 			border-radius: 30px;
 			text-decoration: none;
 			transition: background-color 0.3s;
+			margin: 0 5px;
+			display: inline-block;
 		}
 
 		.btn-home:hover {
@@ -69,10 +71,30 @@
 
 <body>
 	<div class="confirmation-box">
-		<img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Producto eliminado" />
-		<h1>¡Producto eliminado con éxito! ✅</h1>
-		<p>El producto ha sido retirado de tu inventario.<br />Gracias por mantener tu catálogo actualizado.</p>
-		<a href="/interfazAdmin" class="btn-home"><i class="fas fa-arrow-left"></i>Volver al inicio</a>
+
+		<img th:src="${estado == 'exito' ? 
+   'https://cdn-icons-png.flaticon.com/512/190/190411.png' : 
+   (estado == 'errorVinculado' or estado == 'errorNoEncontrado' ? 
+      'https://cdn-icons-png.flaticon.com/512/565/565547.png' : 
+      'https://cdn-icons-png.flaticon.com/512/565/565547.png')}" alt="Mensaje" />
+
+
+		<h1 th:switch="${estado}">
+			<span th:case="'exito'">¡Producto eliminado con éxito! ✅</span>
+			<span th:case="'errorVinculado'">No se puede eliminar el producto</span>
+			<span th:case="'errorNoEncontrado'">Producto no encontrado</span>
+			<span th:case="*">Mensaje</span>
+		</h1>
+
+		<p th:switch="${estado}">
+			<span th:case="'exito'">El producto ha sido retirado de tu inventario.<br />Gracias por mantener tu catálogo
+				actualizado.</span>
+			<span th:case="'errorVinculado'">Este producto está vinculado a pedidos y no puede ser eliminado.</span>
+			<span th:case="'errorNoEncontrado'">No se encontró el producto que intentas eliminar.</span>
+			<span th:case="*">Mensaje descriptivo.</span>
+		</p>
+
+		<a href="/interfazAdmin" class="btn-home"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
 		<a href="/listaProductosAdmin" class="btn-home"><i class="fas fa-users"></i> Ver lista</a>
 
 	</div>

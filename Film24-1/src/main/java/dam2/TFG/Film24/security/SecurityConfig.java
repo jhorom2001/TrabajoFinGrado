@@ -43,6 +43,7 @@ public class SecurityConfig {
 				"/visualizacionesEnProgreso", "/altaResenna/submit/**", "/ConfirmacionRegistro",
 				"/altaNoticia", "/altaNoticia/submit", "/eliminarNoticia", "/eliminarNoticia/submit",
 				"/postsParaUsuario", "/detalleNoticia/**","/listaProductosAdmin","/eliminarProducto/submit","/eliminarProducto",
+				"/listaNoticias",
 				"/css/**", "/js/**", "/images/**")
 			.permitAll().anyRequest().authenticated())
 			.formLogin(login -> login.loginPage("/").defaultSuccessUrl("/usuarioLogeado", true)

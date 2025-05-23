@@ -22,11 +22,11 @@ public class DevolverPelicula {
 	private Film24DAO dao;
 
 	// DEVOLVER EJEMPLAR
-	@GetMapping("/devolverPelicula")
-	public String devolverPelicula(Model model) {
-		model.addAttribute("devolverForm", new Pelicula());
-		return "DevolverPelicula.html";
-	}
+//	@GetMapping("/devolverPelicula")
+//	public String devolverPelicula(Model model) {
+//		model.addAttribute("devolverForm", new Pelicula());
+//		return "DevolverPelicula.html";
+//	}
 
 	@PostMapping("/devolverPelicula/submit")
 	public String finalizarPeliculaSubmit(@RequestParam("peliculaId") int peliculaId, Model model) {

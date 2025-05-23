@@ -26,6 +26,6 @@ public class AltaProducto {
     public String altaProductoSubmit(Producto producto, Model model) {
         dao.altaProducto(producto);
         model.addAttribute("productoForm", producto);
-        return "Confirmaciones";
+        return "confirmacionAltaProducto";
     }
 }

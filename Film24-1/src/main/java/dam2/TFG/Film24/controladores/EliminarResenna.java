@@ -11,24 +11,23 @@ import dam2.TFG.Film24.modelo.Resenna;
 
 @Controller
 public class EliminarResenna {
-
+	
 	@Autowired
 	private Film24DAO dao;
-	
+
 	@GetMapping("/resenna/baja")
 	public String bajaResenna(Model model) {
 		model.addAttribute("resennaForm", new Resenna());
 		return "BajaResenna";
 	}
-	
+
 	@PostMapping("/resenna/baja/submit")
 	public String bajaResennaSubmit(Resenna resenna, Model model) {
-		Resenna r=dao.consultarResenna(resenna.getId());
-		if(r!=null) {
+		Resenna r = dao.consultarResenna(resenna.getId());
+		if (r != null) {
 			dao.eliminarResenna(r);
 			return "Confirmaciones.html";
-		}
-		else {
+		} else {
 			return "Errores.html";
 		}
 	}

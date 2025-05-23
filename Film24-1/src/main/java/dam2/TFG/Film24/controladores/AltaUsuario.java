@@ -18,7 +18,7 @@ public class AltaUsuario {
     private Film24DAO dao;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // 🔐 Inyectamos el codificador
+    private PasswordEncoder passwordEncoder; //Inyectamos el codificador
 
     @GetMapping("/registroUsuario")
     public String altaUsuario(Model model) {
@@ -30,7 +30,7 @@ public class AltaUsuario {
     public String altaClienteSubmit(@ModelAttribute Usuario usuario, Model model) {
         System.out.println("ALTA USUARIO");
 
-        // 🔐 Cifrar la contraseña antes de guardar
+        //Cifrar la contraseña antes de guardar
         String passwordCifrada = passwordEncoder.encode(usuario.getPassword());
         usuario.setPassword(passwordCifrada);
 

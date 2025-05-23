@@ -13,26 +13,26 @@ import dam2.TFG.Film24.modelo.Resenna;
 @Controller
 public class ConsultaResenna {
 	
-	@Autowired
-	private Film24DAO dao;
-	
-	@GetMapping("/resenna/consulta")
-	public String consultaResenna(Model model) {
-		model.addAttribute("resennaConsultaForm", new Resenna());
-		return "ConsultaResenna.html";
-	}
-	
-	@PostMapping("/resenna/consulta/submit")
-	public String consultaResennaSubmit(Resenna resenna, Model model) {
-		return "redirect:/resenna/consulta/" + resenna.getId();
-	}
-	
-	@GetMapping("/resenna/consulta/{id}")
-	public String consultaResennaResultado(@PathVariable("id") int id, Model model) {
-		model.addAttribute("id", id);
-		Resenna resenna=dao.consultarResenna(id);
-		model.addAttribute("resennaConsultaForm", resenna==null? new Resenna(): resenna);
-		return "ConsultaUsuario.html";
-	}
+//	@Autowired
+//	private Film24DAO dao;
+//	
+//	@GetMapping("/resenna/consulta")
+//	public String consultaResenna(Model model) {
+//		model.addAttribute("resennaConsultaForm", new Resenna());
+//		return "ConsultaResenna.html";
+//	}
+//	
+//	@PostMapping("/resenna/consulta/submit")
+//	public String consultaResennaSubmit(Resenna resenna, Model model) {
+//		return "redirect:/resenna/consulta/" + resenna.getId();
+//	}
+//	
+//	@GetMapping("/resenna/consulta/{id}")
+//	public String consultaResennaResultado(@PathVariable("id") int id, Model model) {
+//		model.addAttribute("id", id);
+//		Resenna resenna=dao.consultarResenna(id);
+//		model.addAttribute("resennaConsultaForm", resenna==null? new Resenna(): resenna);
+//		return "ConsultaUsuario.html";
+//	}
 
 }

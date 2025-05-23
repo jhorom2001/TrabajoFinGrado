@@ -30,7 +30,7 @@ public class EliminarPelicula {
 		Pelicula p=dao.consultarPelicula(pelicula.getId());
 		if(p!=null) {
 			dao.eliminarPelicula(p);
-			return "Confirmaciones.html";
+			return "confirmacionEliminarPelicula.html";
 		}
 		else {
 			return "Errores.html";

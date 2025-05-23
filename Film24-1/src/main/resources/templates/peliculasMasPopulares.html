@@ -1,118 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
 	<title>Películas Más Populares</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			background-color: #f7f9fc;
-			margin: 20px;
+			background: linear-gradient(to right, #e3f2fd, #ffffff);
+			font-family: 'Segoe UI', sans-serif;
 			color: #333;
+			padding-top: 40px;
+			padding-bottom: 60px;
 		}
 
-		h1 {
+		.titulo {
 			text-align: center;
-			color: #2c3e50;
-			margin-bottom: 30px;
+			margin-bottom: 40px;
+			color: #0d47a1;
 		}
 
-		ul.pelicula-list {
-			list-style: none;
-			padding: 0;
-			max-width: 800px;
-			margin: 0 auto;
+		.pelicula-card {
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
 		}
 
-		li.pelicula-item {
-			background-color: #ffffff;
-			box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-			border-radius: 8px;
-			margin-bottom: 20px;
-			display: flex;
-			gap: 20px;
-			padding: 15px;
-			align-items: center;
-			transition: transform 0.2s ease;
-		}
-
-		li.pelicula-item:hover {
+		.pelicula-card:hover {
 			transform: scale(1.02);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 		}
 
-		.pelicula-imagen {
-			width: 120px;
-			height: 170px;
+		.pelicula-img {
+			height: 300px;
 			object-fit: cover;
-			border-radius: 5px;
-			box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+			border-radius: 8px 8px 0 0;
 		}
 
-		.pelicula-info {
-			flex: 1;
+		.card-body h5 {
+			font-weight: 600;
+			color: #1b1b1b;
 		}
 
-		.pelicula-titulo {
-			font-size: 1.4em;
-			font-weight: bold;
-			margin-bottom: 8px;
-			color: #34495e;
+		.card-text {
+			font-size: 0.95em;
+			color: #616161;
 		}
 
-		.pelicula-detalles {
-			font-size: 0.9em;
-			color: #7f8c8d;
+		.volver-btn {
+			margin-top: 40px;
 		}
 
 		.no-peliculas {
 			text-align: center;
-			font-size: 1.2em;
-			color: #95a5a6;
-			margin-top: 50px;
-		}
-
-		.btn-primary {
-			border-radius: 50px;
-			padding: 10px 25px;
-			font-weight: bold;
-			transition: all 0.3s ease;
-		}
-
-		.btn-primary:hover {
-			background-color: #0d47a1;
-			transform: scale(1.05);
+			font-size: 1.3rem;
+			color: #757575;
+			margin-top: 60px;
 		}
 	</style>
 </head>
 
 <body>
-	<h1>Películas Más Populares</h1>
 
-	<ul class="pelicula-list" th:if="${peliculas != null and !peliculas.isEmpty()}">
-		<li class="pelicula-item" th:each="pelicula : ${peliculas}">
-			<img th:src="${pelicula.imagen != null ? pelicula.imagen : '/images/default-movie.png'}"
-				alt="Imagen de la película" class="pelicula-imagen" />
-			<div class="pelicula-info">
-				<div class="pelicula-titulo" th:text="${pelicula.titulo}">Título de la película</div>
-				<div class="pelicula-detalles">
-					Categoría: <span th:text="${pelicula.categoria}">Categoría</span> |
-					Director: <span th:text="${pelicula.director}">Director</span> |
-					Año: <span th:text="${pelicula.anyo}">Año</span> |
-					Duración: <span th:text="${pelicula.duracion}">Duración</span> min
+	<div class="container">
+		<h1 class="titulo"><i class="fas fa-film me-2"></i>Películas Más Populares</h1>
+
+		<div class="row" th:if="${peliculas != null and !peliculas.isEmpty()}">
+			<div class="col-md-4 mb-4" th:each="pelicula : ${peliculas}">
+				<div class="card pelicula-card h-100 shadow-sm">
+					<img th:src="${pelicula.imagen != null ? pelicula.imagen : '/images/default-movie.png'}"
+						alt="Imagen de la película" class="pelicula-img card-img-top" />
+
+					<div class="card-body">
+						<h5 class="card-title" th:text="${pelicula.titulo}">Título</h5>
+						<p class="card-text">
+							<strong>Categoría:</strong> <span th:text="${pelicula.categoria}">Categoría</span><br />
+							<strong>Director:</strong> <span th:text="${pelicula.director}">Director</span><br />
+							<strong>Año:</strong> <span th:text="${pelicula.anyo}">Año</span><br />
+							<strong>Duración:</strong> <span th:text="${pelicula.duracion}">Duración</span> min
+						</p>
+					</div>
 				</div>
 			</div>
-		</li>
-	</ul>
+		</div>
 
-	<div class="no-peliculas" th:if="${peliculas == null or peliculas.isEmpty()}">
-		<p>No hay películas para mostrar.</p>
+		<div class="no-peliculas" th:if="${peliculas == null or peliculas.isEmpty()}">
+			<p><i class="fas fa-sad-tear me-2"></i>No hay películas para mostrar en este momento.</p>
+		</div>
+
+		<div class="text-center volver-btn">
+			<a href="/usuarioLogeado" class="btn btn-primary btn-lg">
+				<i class="fas fa-arrow-left me-2"></i>Volver al Inicio
+			</a>
+		</div>
 	</div>
 
-	<div class="text-center mt-4">
-		<a href="usuarioLogeado" class="btn btn-primary"><i class="fas fa-home"></i> Volver al Inicio</a>
-	</div>
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

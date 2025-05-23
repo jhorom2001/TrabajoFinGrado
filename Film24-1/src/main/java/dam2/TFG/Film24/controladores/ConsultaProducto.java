@@ -22,57 +22,57 @@ import dam2.TFG.Film24.dao.Film24DAO;
 @RequestMapping("/producto")
 public class ConsultaProducto {
 
-    @Autowired
-    private Film24DAO dao;
+	@Autowired
+	private Film24DAO dao;
 
-    @GetMapping("/lista")
-    public String listaProductos(Model model, HttpSession session) {
-        List<Producto> productos = dao.listaProductos();
-        model.addAttribute("productos", productos);
+	@GetMapping("/lista")
+	public String listaProductos(Model model, HttpSession session) {
+		List<Producto> productos = dao.listaProductos();
+		model.addAttribute("productos", productos);
 
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-        int cantidadTotal = 0;
-        if (carrito != null) {
-            cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
-        }
-        model.addAttribute("carritoCantidad", cantidadTotal);
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+		int cantidadTotal = 0;
+		if (carrito != null) {
+			cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
+		}
+		model.addAttribute("carritoCantidad", cantidadTotal);
 
-        return "listaProducto";
-    }
-    
-    @PostMapping("/comprar/{id}")
-    public String comprarProducto(@PathVariable Long id, HttpSession session) {
-        Producto producto = dao.buscarProductoPorId(id);
-        if (producto == null) {
-            return "redirect:/producto/lista";
-        }
+		return "listaProducto";
+	}
 
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-        if (carrito == null) {
-            carrito = new ArrayList<>();
-            session.setAttribute("carrito", carrito);
-        }
+	@PostMapping("/comprar/{id}")
+	public String comprarProducto(@PathVariable Long id, HttpSession session) {
+		Producto producto = dao.buscarProductoPorId(id);
+		if (producto == null) {
+			return "redirect:/producto/lista";
+		}
 
-        boolean encontrado = false;
-        for (LineaPedido lp : carrito) {
-            if (lp.getProducto().getId() == producto.getId()) {
-                lp.setCantidad(lp.getCantidad() + 1);
-                encontrado = true;
-                break;
-            }
-        }
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+		if (carrito == null) {
+			carrito = new ArrayList<>();
+			session.setAttribute("carrito", carrito);
+		}
 
-        if (!encontrado) {
-            LineaPedido linea = new LineaPedido();
-            linea.setProducto(producto);
-            linea.setCantidad(1);
-            linea.setPrecioUnitario(producto.getPrecio());
-            carrito.add(linea);
-        }
+		boolean encontrado = false;
+		for (LineaPedido lp : carrito) {
+			if (lp.getProducto().getId() == producto.getId()) {
+				lp.setCantidad(lp.getCantidad() + 1);
+				encontrado = true;
+				break;
+			}
+		}
 
-        int cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
-        session.setAttribute("carritoCantidad", cantidadTotal);
+		if (!encontrado) {
+			LineaPedido linea = new LineaPedido();
+			linea.setProducto(producto);
+			linea.setCantidad(1);
+			linea.setPrecioUnitario(producto.getPrecio());
+			carrito.add(linea);
+		}
 
-        return "redirect:/producto/lista";
-    }
+		int cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
+		session.setAttribute("carritoCantidad", cantidadTotal);
+
+		return "redirect:/producto/lista";
+	}
 }

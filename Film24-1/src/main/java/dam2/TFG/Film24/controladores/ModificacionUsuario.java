@@ -12,24 +12,24 @@ import dam2.TFG.Film24.modelo.Usuario;
 @Controller
 public class ModificacionUsuario {
 
-	@Autowired
-	private Film24DAO dao;
-	
-	@GetMapping("usuario/modificacion")
-	public String modificarUsuario(Model model) {
-		model.addAttribute("usuarioForm", new Usuario());
-		return "ModificacionUsuario.html";
-	}
-	
-	@PostMapping("usuario/modificacion/submit")
-	public String modificarUsuarioSubmit(Usuario usuario, Model model) {
-		if(dao.consultaUsuario(usuario.getId())!=null) {
-			dao.modificarUsuario(usuario);
-			return "Confirmaciones.html";
-		}
-		else {
-			return "Errores.html";
-		}
-		
-	}
+//	@Autowired
+//	private Film24DAO dao;
+//	
+//	@GetMapping("usuario/modificacion")
+//	public String modificarUsuario(Model model) {
+//		model.addAttribute("usuarioForm", new Usuario());
+//		return "ModificacionUsuario.html";
+//	}
+//	
+//	@PostMapping("usuario/modificacion/submit")
+//	public String modificarUsuarioSubmit(Usuario usuario, Model model) {
+//		if(dao.consultaUsuario(usuario.getId())!=null) {
+//			dao.modificarUsuario(usuario);
+//			return "Confirmaciones.html";
+//		}
+//		else {
+//			return "Errores.html";
+//		}
+//		
+//	}
 }

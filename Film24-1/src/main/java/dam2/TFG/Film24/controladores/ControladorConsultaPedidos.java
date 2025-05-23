@@ -19,45 +19,36 @@ import java.util.stream.Collectors;
 @Controller
 public class ControladorConsultaPedidos {
 
-    @Autowired
-    private Film24DAO dao;
+	@Autowired
+	private Film24DAO dao;
 
-    @GetMapping("/listaPedidos")
-    public String mostrarPedidosUsuario(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+	@GetMapping("/listaPedidos")
+	public String mostrarPedidosUsuario(HttpSession session, Model model) {
+		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
-        if (usuario == null) {
-            return "redirect:/login";
-        }
+		if (usuario == null) {
+			return "redirect:/login";
+		}
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        // Convertimos los pedidos a un DTO con lineas ya mapeadas
-        List<Object> pedidosDTO = usuario.getPedidos().stream().map(p -> {
-            List<LineaPedidoDTO> lineasDTO = p.getLineas().stream()
-                .map(linea -> new LineaPedidoDTO(
-                    linea.getProducto().getNombre(),
-                    linea.getCantidad(),
-                    linea.getSubtotal(),
-                    linea.getProducto().getImagen()  // Ajusta según el nombre real de tu getter imagen
-                ))
-                .collect(Collectors.toList());
-            
+		// Convertimos los pedidos a un DTO con lineas ya mapeadas
+		List<Object> pedidosDTO = usuario.getPedidos().stream().map(p -> {
+			List<LineaPedidoDTO> lineasDTO = p
+					.getLineas().stream().map(linea -> new LineaPedidoDTO(linea.getProducto().getNombre(),
+							linea.getCantidad(), linea.getSubtotal(), linea.getProducto().getImagen()))
+					.collect(Collectors.toList());
 
-            return new Object() {
-                public final int id = p.getId();
-                public final String fechaFormateada = p.getFecha().format(formatter);
-                public final double total = p.getTotal();
-                public final List<LineaPedidoDTO> lineas = lineasDTO;
-            };
-        }).collect(Collectors.toList());
+			return new Object() {
+				public final int id = p.getId();
+				public final String fechaFormateada = p.getFecha().format(formatter);
+				public final double total = p.getTotal();
+				public final List<LineaPedidoDTO> lineas = lineasDTO;
+			};
+		}).collect(Collectors.toList());
 
-        model.addAttribute("pedidos", pedidosDTO);
+		model.addAttribute("pedidos", pedidosDTO);
 
-        return "listaPedidos";
-    }
+		return "listaPedidos";
+	}
 }
-
-
-
-

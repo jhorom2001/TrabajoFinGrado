@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 import dam2.TFG.Film24.modelo.Pedido;
 
 import dam2.TFG.Film24.modelo.Noticia;
@@ -122,14 +121,16 @@ public class Film24DAO {
 
 	// DEVOLVER PELICULA
 	public void finalizarVisualizacion(Usuario usuario, Pelicula pelicula) {
-	    Visualizacion visualizacion = visualizacionRepository.findTopByUsuarioAndPeliculaOrderByFechaVisualizacionDesc(usuario, pelicula);
+		Visualizacion visualizacion = visualizacionRepository
+				.findTopByUsuarioAndPeliculaOrderByFechaVisualizacionDesc(usuario, pelicula);
 
-	    if (visualizacion == null) {
-	        throw new IllegalArgumentException("No se encontró la visualización más reciente para el usuario y la película.");
-	    }
+		if (visualizacion == null) {
+			throw new IllegalArgumentException(
+					"No se encontró la visualización más reciente para el usuario y la película.");
+		}
 
-	    visualizacion.setEnProgreso(false); // o lo que corresponda para marcarla como finalizada
-	    visualizacionRepository.save(visualizacion);
+		visualizacion.setEnProgreso(false); // o lo que corresponda para marcarla como finalizada
+		visualizacionRepository.save(visualizacion);
 	}
 
 	public void actualizarVisualizacion(Visualizacion visualizacion) {
@@ -152,33 +153,29 @@ public class Film24DAO {
 		String jpql = "SELECT p FROM Producto p";
 		return em.createQuery(jpql, Producto.class).getResultList();
 	}
-	
 
 	public void altaPedido(Pedido pedido) {
-	    em.persist(pedido);
+		em.persist(pedido);
 	}
-	
+
 	public Producto buscarProductoPorId(Long id) {
-	    
+
 		return em.find(Producto.class, id);
 	}
 
-
-	//NOTICIAS
+	// NOTICIAS
 	public void altaNoticia(Noticia noticia) {
 		em.persist(noticia);
 	}
-	
+
 	public void eliminarNoticia(Noticia noticia) {
 		em.remove(noticia);
 	}
-	
+
 	public Noticia consultarNoticia(int id) {
 		return em.find(Noticia.class, id);
 	}
 
-	
-	
 	// CONSULTAS
 	public List<Pelicula> listaPeliculas() {
 		String jpql = "SELECT p FROM Pelicula p";
@@ -189,7 +186,7 @@ public class Film24DAO {
 		String jpql = "SELECT u FROM Usuario u";
 		return em.createQuery(jpql, Usuario.class).getResultList();
 	}
-	
+
 	public List<Noticia> listaNoticias() {
 		String jpql = "SELECT n FROM Noticia n";
 		return em.createQuery(jpql, Noticia.class).getResultList();
@@ -199,15 +196,10 @@ public class Film24DAO {
 	public List<Visualizacion> obtenerVisualizacionesPorUsuario(Usuario usuario) {
 		return visualizacionRepository.findByUsuario(usuario);
 	}
-	
-	//Alta Producto
-	
-   
-	//Usuario logueado en tienda
-	public Usuario obtenerUsuarioPorCorreoElectronico(String correo) {
-	    return usuarioRepository.findByCorreoElectronico(correo).orElse(null);
-	}
 
-   
+	// Usuario logueado en tienda
+	public Usuario obtenerUsuarioPorCorreoElectronico(String correo) {
+		return usuarioRepository.findByCorreoElectronico(correo).orElse(null);
+	}
 
 }

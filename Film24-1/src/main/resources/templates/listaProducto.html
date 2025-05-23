@@ -1,94 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<title>Lista de productos</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f4;
-			margin: 0;
-			padding: 0;
+			background-color: #f8f9fa;
 		}
 
 		header {
-			background-color: #333;
+			background-color: #343a40;
 			color: white;
-			padding: 10px 0;
+			padding: 20px 0;
 			text-align: center;
-		}
-
-		h1 {
-			font-size: 2rem;
-			margin: 0;
-		}
-
-		.container {
-			width: 80%;
-			margin: 20px auto;
-			padding: 20px;
-			background-color: white;
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 		}
 
 		.carrito-info {
-			margin: 20px 0;
-			font-size: 1.1rem;
 			display: flex;
+			flex-wrap: wrap;
 			justify-content: space-between;
 			align-items: center;
+			gap: 10px;
+			margin-bottom: 20px;
+		}
+
+		.carrito-info span {
+			font-size: 1.1rem;
 		}
 
 		.carrito-info a {
-			background-color: #28a745;
-			color: white;
-			padding: 10px 20px;
-			border-radius: 4px;
 			text-decoration: none;
 		}
 
-		.carrito-info a:hover {
-			background-color: #218838;
+		.card-producto {
+			transition: transform 0.2s, box-shadow 0.2s;
 		}
 
-		.productos-table {
+		.card-producto:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.card-producto img {
 			width: 100%;
-			border-collapse: collapse;
+			height: 410px;
+			object-fit: cover;
+			border-top-left-radius: 0.375rem;
+			border-top-right-radius: 0.375rem;
 		}
 
-		.productos-table th,
-		.productos-table td {
-			padding: 12px;
-			text-align: center;
-			border: 1px solid #ddd;
-		}
 
-		.productos-table th {
-			background-color: #007bff;
-			color: white;
-		}
-
-		.productos-table td button {
-			background-color: #ffc107;
-			border: none;
-			padding: 8px 16px;
-			border-radius: 4px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-
-		.productos-table td button:hover {
-			background-color: #e0a800;
+		.btn-icon {
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
 		}
 
 		.footer {
 			text-align: center;
-			margin-top: 20px;
+			padding: 20px;
 			font-size: 0.9rem;
-			color: #777;
+			color: #6c757d;
 		}
 	</style>
 </head>
@@ -96,47 +74,46 @@
 <body>
 
 	<header>
-		<h1>Lista de Productos</h1>
+		<h1><i class="fas fa-box-open me-2"></i>Lista de Productos</h1>
 	</header>
 
-	<div class="container">
+	<div class="container mt-4">
 		<div class="carrito-info">
-			<span>Carrito: <span th:text="${carritoCantidad}">0</span> producto(s)</span>
-			<a th:href="@{/pedido/finalizar}">Finalizar pedido</a>
-			<a th:href="@{/usuarioLogeado}" style="background-color: #dc3545;">Salir de la tienda</a>
-
+			<span><i class="fas fa-shopping-cart me-2"></i>Carrito: <strong th:text="${carritoCantidad}">0</strong>
+				producto(s)</span>
+			<div>
+				<a class="btn btn-success me-2 btn-icon" th:href="@{/pedido/finalizar}">
+					<i class="fas fa-check-circle"></i> Finalizar pedido
+				</a>
+				<a class="btn btn-danger btn-icon" th:href="@{/usuarioLogeado}">
+					<i class="fas fa-sign-out-alt"></i> Salir de la tienda
+				</a>
+			</div>
 		</div>
 
-		<table class="productos-table">
-			<thead>
-				<tr>
-					<th>Imagen</th>
-					<th>Nombre</th>
-					<th>Precio</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="producto : ${productos}">
-					<td>
-						<img th:src="@{${producto.imagen}}" alt="Imagen del producto" style="width: 80px; height: 80px; object-fit: cover;">
-					</td>
-					<td th:text="${producto.nombre}">Nombre</td>
-					<td th:text="${producto.precio}">0.0</td>
-					<td>
+		<div class="row g-4">
+			<div class="col-4" th:each="producto : ${productos}">
+				<div class="card card-producto h-100 shadow-sm">
+					<img th:src="@{${producto.imagen}}" class="card-img-top" alt="Imagen del producto">
+					<div class="card-body text-center">
+						<h5 class="card-title" th:text="${producto.nombre}">Nombre del producto</h5>
+						<p class="card-text text-success fw-bold" th:text="${producto.precio} + ' €'">0.0 €</p>
 						<form th:action="@{/producto/comprar/{id}(id=${producto.id})}" method="post">
-							<button type="submit">Añadir al carrito</button>
+							<button type="submit" class="btn btn-warning btn-icon w-100">
+								<i class="fas fa-cart-plus"></i> Añadir al carrito
+							</button>
 						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer mt-5">
+			<p>2025 Tu Tienda Online. Todos los derechos reservados.</p>
+		</footer>
 	</div>
 
-	<footer class="footer">
-		<p>&copy; 2025 Tu Tienda Online. Todos los derechos reservados.</p>
-	</footer>
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

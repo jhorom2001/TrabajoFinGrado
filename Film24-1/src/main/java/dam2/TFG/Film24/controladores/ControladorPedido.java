@@ -101,9 +101,16 @@ public class ControladorPedido {
         return "redirect:/pedido/confirmado";
     }
 
+    //POR VER EL DE LA TIENDA
+    @GetMapping("/tipoDePago")
+    public String mostrarTipoDePago(Model model) {
+        return "tipoDePago";
+    }
+
+    
     @GetMapping("/confirmado")
     public String pedidoConfirmado() {
         System.out.println("Mostrando página de pedido confirmado.");
-        return "ConfirmacionesUsuario";
+        return "confirmacionPedido";
     }
 }

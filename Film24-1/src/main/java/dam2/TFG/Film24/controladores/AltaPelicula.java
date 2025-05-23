@@ -32,10 +32,9 @@ public class AltaPelicula {
     public String altaPeliculaSubmit(Pelicula pelicula, Model model) {
         dao.altaPelicula(pelicula);
         model.addAttribute("peliculaForm", pelicula);
-        return "Confirmaciones";
+        return "confirmacionAltaPelicula";
     }
 
-    //AÑADIDO
     @GetMapping("/listaPeliculasParaUsuario")
     public String obtenerPeliculas(Model model, Authentication authentication) {
         List<Pelicula> listaPeliculas = dao.listaPeliculas();

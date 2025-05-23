@@ -13,26 +13,25 @@ import dam2.TFG.Film24.dao.Film24DAO;
 
 @Controller
 public class EliminarUsuario {
-	
+
 	@Autowired
 	private Film24DAO dao;
-	
+
 	@GetMapping("/eliminarUsuario")
 	public String bajaUsuario(Model model) {
-		List<Usuario> listaUsuarios=dao.listaUsuarios();
+		List<Usuario> listaUsuarios = dao.listaUsuarios();
 		model.addAttribute("listaUsuarios", listaUsuarios);
 		return "eliminarUsuario";
 	}
-	
+
 	@PostMapping("/eliminarUsuario/submit")
 	public String bajaUsuarioSubmit(Usuario usuario, Model model) {
 		System.out.println(usuario.getId());
-		Usuario u=dao.consultaUsuario(usuario.getId());
-		if(u!=null) {
+		Usuario u = dao.consultaUsuario(usuario.getId());
+		if (u != null) {
 			dao.eliminarUsuario(u);
-			return "Confirmaciones.html";
-		}
-		else {
+			return "confirmacionEliminarUsuario.html";
+		} else {
 			return "Errores.html";
 		}
 	}

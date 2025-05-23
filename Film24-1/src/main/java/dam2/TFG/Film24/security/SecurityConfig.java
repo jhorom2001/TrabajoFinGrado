@@ -42,7 +42,7 @@ public class SecurityConfig {
 				"/producto/consulta", "/producto/lista", "/altaProducto", "/altaProducto/submit", "/detallePelicula/**", "/detallePelicula",
 				"/visualizacionesEnProgreso", "/altaResenna/submit/**", "/ConfirmacionRegistro",
 				"/altaNoticia", "/altaNoticia/submit", "/eliminarNoticia", "/eliminarNoticia/submit",
-				"/postsParaUsuario", "/detalleNoticia/**",
+				"/postsParaUsuario", "/detalleNoticia/**","/listaProductosAdmin","/eliminarProducto/submit","/eliminarProducto",
 				"/css/**", "/js/**", "/images/**")
 			.permitAll().anyRequest().authenticated())
 			.formLogin(login -> login.loginPage("/").defaultSuccessUrl("/usuarioLogeado", true)

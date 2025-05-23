@@ -13,6 +13,7 @@ import dam2.TFG.Film24.modelo.Usuario;
 import dam2.TFG.Film24.repository.PeliculaRepository;
 import dam2.TFG.Film24.repository.ResennaRepository;
 import dam2.TFG.Film24.repository.UsuarioRepository;
+
 import org.springframework.security.core.Authentication;
 
 @Controller
@@ -24,6 +25,8 @@ public class AltaResenna {
 	private UsuarioRepository usuarioRepository;
 	@Autowired
 	private PeliculaRepository peliculaRepository;
+//	@Autowired
+//	private VerificacionPalabrasProhibidas verificacionPalabrasProhibidas;
 
 	@PostMapping("/altaResenna/submit/{peliculaId}")
 	public String guardarResenna(@PathVariable("peliculaId") int peliculaId,
@@ -40,16 +43,22 @@ public class AltaResenna {
 		Optional<Resenna> existente = resennaRepository.findByUsuarioAndPelicula(usuario, pelicula);
 
 		if (existente.isPresent()) {
-			redirectAttributes.addFlashAttribute("error", "Ya has enviado una reseña para la película " + pelicula.getTitulo() + ".");
+			redirectAttributes.addFlashAttribute("error",
+					"Ya has enviado una reseña para la película " + pelicula.getTitulo() + ".");
 			return "redirect:/detallePelicula/" + peliculaId;
 		}
+
+		// palabras prohibidas
+//		if (verificacionPalabrasProhibidas.esToxico(comentario)) {
+//			redirectAttributes.addFlashAttribute("error", "Tu comentario contiene lenguaje inapropiado.");
+//			return "redirect:/detallePelicula/" + peliculaId;
+//		}
 
 		Resenna resenna = new Resenna(comentario, puntuacion);
 		resenna.setUsuario(usuario);
 		resenna.setPelicula(pelicula);
 		resennaRepository.save(resenna);
-		
+
 		return "redirect:/detallePelicula/" + peliculaId;
 	}
-
 }

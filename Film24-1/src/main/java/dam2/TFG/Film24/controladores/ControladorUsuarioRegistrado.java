@@ -15,22 +15,22 @@ import org.springframework.ui.Model;
 @ControllerAdvice
 public class ControladorUsuarioRegistrado {
 
-    @Autowired
-    private Film24DAO dao;
+	@Autowired
+	private Film24DAO dao;
 
-    @ModelAttribute
-    public void agregarUsuarioAlModelo(Model model, HttpSession session) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	@ModelAttribute
+	public void agregarUsuarioAlModelo(Model model, HttpSession session) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
-            String correo = auth.getName(); // Esto normalmente es el correo electrónico
+		if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+			String correo = auth.getName();
 
-            Usuario usuario = dao.obtenerUsuarioPorCorreoElectronico(correo); 
-            if (usuario != null) {
-                model.addAttribute("usuarioLogueado", usuario);
-                session.setAttribute("usuarioLogueado", usuario);
-               
-            }
-        }
-    }
+			Usuario usuario = dao.obtenerUsuarioPorCorreoElectronico(correo);
+			if (usuario != null) {
+				model.addAttribute("usuarioLogueado", usuario);
+				session.setAttribute("usuarioLogueado", usuario);
+
+			}
+		}
+	}
 }

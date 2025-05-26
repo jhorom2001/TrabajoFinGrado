@@ -292,7 +292,6 @@
 			<a class="navbar-brand" href="#" th:href="@{/}">Pelix25</a>
 			<div class="d-flex gap-2">
 				<a href="#" class="btn btn-success">SUSCRÍBETE</a>
-				<a href="/loginadmin" class="btn btn-outline-light">Acceder al administrador</a>
 			</div>
 		</div>
 	</nav>
@@ -320,9 +319,9 @@
 					</div>
 
 					<div th:if="${param.logout}">
-						<div>
-							<div class="alert alert-info">Has cerrado sesión</div>
-						</div>
+					    <div class="alert alert-success" role="alert">
+					        Has cerrado sesión correctamente.
+					    </div>
 					</div>
 
 					<div class="mb-3">

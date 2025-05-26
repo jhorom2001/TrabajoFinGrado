@@ -17,7 +17,7 @@ public class Noticia {
 
     private String titulo;
     
-    @Column(length = 5000)
+    @Column(length = 7000)
     private String contenido;
 
     private String imagenUrl;

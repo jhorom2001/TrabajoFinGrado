@@ -36,11 +36,7 @@ public class ControladorAdmin {
 	@Autowired
 	private LineaPedidoRepository lineaPedidoRepository;
 
-	@GetMapping("/loginadmin")
-	public String mostrarLoginAdmin() {
-		return "loginadmin";
-	}
-
+	
 	@GetMapping("/interfazAdmin")
 	public String mostrarInterfazAdmin() {
 		return "interfazAdmin";

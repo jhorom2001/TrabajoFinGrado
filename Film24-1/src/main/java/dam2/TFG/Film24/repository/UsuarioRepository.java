@@ -8,5 +8,6 @@ import dam2.TFG.Film24.modelo.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	 Optional<Usuario> findByCorreoElectronico(String correoElectronico);
+	 boolean existsByCorreoElectronico(String correoElectronico);
 
 }

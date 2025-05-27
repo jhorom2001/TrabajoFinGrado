@@ -157,6 +157,12 @@ public class Film24DAO {
 	public void altaPedido(Pedido pedido) {
 		em.persist(pedido);
 	}
+	
+	public List<Pedido> listaPedidos() {
+	    String jpql = "SELECT p FROM Pedido p ORDER BY p.fecha DESC";
+	    return em.createQuery(jpql, Pedido.class).getResultList();
+	}
+
 
 	public Producto buscarProductoPorId(Long id) {
 

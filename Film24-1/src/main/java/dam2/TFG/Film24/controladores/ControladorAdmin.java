@@ -1,7 +1,9 @@
 package dam2.TFG.Film24.controladores;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dam2.TFG.Film24.dao.Film24DAO;
+import dam2.TFG.Film24.modelo.LineaPedidoDTO;
 import dam2.TFG.Film24.modelo.Noticia;
+import dam2.TFG.Film24.modelo.Pedido;
 import dam2.TFG.Film24.modelo.Pelicula;
 import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Resenna;
@@ -133,6 +137,37 @@ public class ControladorAdmin {
 	    }
 	    model.addAttribute("productos", productoRepository.findAll());
 	    return "listaProductosAdmin";
+	}
+	
+	@GetMapping("/listaPedidosAdmin")
+	public String listaPedidosAdmin(Model model) {
+	    List<Pedido> pedidos = dao.listaPedidos();
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+	    // Convertir pedidos a DTO para facilitar la vista
+	    List<Object> pedidosDTO = pedidos.stream().map(p -> {
+	        List<LineaPedidoDTO> lineasDTO = p.getLineas().stream().map(linea -> 
+	            new LineaPedidoDTO(
+	                linea.getProducto().getNombre(),
+	                linea.getCantidad(),
+	                linea.getSubtotal(),
+	                linea.getProducto().getImagen()
+	            )
+	        ).collect(Collectors.toList());
+
+	        return new Object() {
+	            public final int id = p.getId();
+	            public final String fechaFormateada = p.getFecha().format(formatter);
+	            public final double total = p.getTotal();
+	            public final List<LineaPedidoDTO> lineas = lineasDTO;
+	            public final String usuarioNombre = p.getUsuario().getNombre() + " " + p.getUsuario().getApellido();
+	        };
+	    }).collect(Collectors.toList());
+
+	    model.addAttribute("pedidos", pedidosDTO);
+
+	    return "listaPedidosAdmin"; // Nueva plantilla para administración
 	}
 
 

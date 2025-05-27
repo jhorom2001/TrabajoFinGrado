@@ -121,4 +121,51 @@ public class ControladorPedido {
         System.out.println("Mostrando página de pedido confirmado.");
         return "confirmacionPedido";
     }
+    
+    //Borrar productos del carrito
+    
+    @PostMapping("/eliminarLinea")
+    public String eliminarLineaPedido(HttpSession session, Long idProducto) {
+        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+        if (carrito == null) return "redirect:/pedido/finalizar";
+
+        LineaPedido lineaAEliminar = null;
+
+        for (LineaPedido lp : carrito) {
+            if (lp.getProducto().getId()==(idProducto)) {
+                // Devolver el stock
+                Producto producto = lp.getProducto();
+                
+                lineaAEliminar = lp;
+                break;
+            }
+        }
+
+        if (lineaAEliminar != null) {
+            carrito.remove(lineaAEliminar);
+            session.setAttribute("carrito", carrito);
+        }
+
+        return "redirect:/pedido/finalizar";
+    }
+    
+    @PostMapping("/vaciar")
+    public String vaciarCarrito(HttpSession session) {
+        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+        if (carrito != null) {
+            // Devolver el stock de todos los productos
+            for (LineaPedido lp : carrito) {
+                Producto producto = lp.getProducto();
+                producto.setStock(producto.getStock() + lp.getCantidad());
+                dao.actualizarProducto(producto);
+            }
+            session.removeAttribute("carrito");
+            session.setAttribute("carritoCantidad", 0);
+            System.out.println("Carrito vaciado correctamente.");
+        } else {
+            System.out.println("El carrito ya estaba vacío.");
+        }
+
+        return "redirect:/pedido/finalizar"; 
 }
+    }

@@ -53,7 +53,7 @@ public class ConsultaProducto {
 
 	    if (producto.getStock() <= 0) {
 	        System.out.println("Producto sin stock: " + producto.getNombre());
-	        return "redirect:/producto/lista"; // o mostrar un mensaje de error
+	        return "redirect:/producto/lista"; 
 	    }
 
 	    List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");

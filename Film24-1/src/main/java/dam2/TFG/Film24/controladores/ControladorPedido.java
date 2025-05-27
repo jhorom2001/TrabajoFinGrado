@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import dam2.TFG.Film24.dao.Film24DAO;
 import dam2.TFG.Film24.modelo.LineaPedido;
 import dam2.TFG.Film24.modelo.Pedido;
+import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -84,6 +85,13 @@ public class ControladorPedido {
         pedido.setLineas(carrito);
 
         pedido.recalcularTotal();
+        
+        for (LineaPedido lp : carrito) {
+            Producto producto = lp.getProducto();
+            int nuevoStock = producto.getStock() - lp.getCantidad();
+            producto.setStock(nuevoStock);
+            dao.actualizarProducto(producto);
+        }
         System.out.println("Total del pedido: " + pedido.getTotal());
 
         for (LineaPedido lp : carrito) {

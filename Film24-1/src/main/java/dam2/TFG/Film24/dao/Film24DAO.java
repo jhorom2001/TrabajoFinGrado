@@ -201,5 +201,10 @@ public class Film24DAO {
 	public Usuario obtenerUsuarioPorCorreoElectronico(String correo) {
 		return usuarioRepository.findByCorreoElectronico(correo).orElse(null);
 	}
+	
+	public void actualizarProducto(Producto producto) {
+	    em.merge(producto);
+	}
+
 
 }

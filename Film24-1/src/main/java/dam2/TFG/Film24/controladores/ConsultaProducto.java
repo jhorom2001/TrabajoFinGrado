@@ -25,54 +25,69 @@ public class ConsultaProducto {
 	@Autowired
 	private Film24DAO dao;
 
+	
 	@GetMapping("/lista")
 	public String listaProductos(Model model, HttpSession session) {
-		List<Producto> productos = dao.listaProductos();
-		model.addAttribute("productos", productos);
+	    List<Producto> productos = dao.listaProductos();
+	    model.addAttribute("productos", productos);
 
-		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-		int cantidadTotal = 0;
-		if (carrito != null) {
-			cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
-		}
-		model.addAttribute("carritoCantidad", cantidadTotal);
+	    List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+	    int cantidadTotal = 0;
+	    if (carrito != null) {
+	        cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
+	    }
+	    model.addAttribute("carritoCantidad", cantidadTotal);
 
-		return "listaProducto";
+	    // Pasamos carrito completo para poder usarlo en Thymeleaf
+	    model.addAttribute("carrito", carrito);
+
+	    return "listaProducto";
 	}
 
 	@PostMapping("/comprar/{id}")
 	public String comprarProducto(@PathVariable Long id, HttpSession session) {
-		Producto producto = dao.buscarProductoPorId(id);
-		if (producto == null) {
-			return "redirect:/producto/lista";
-		}
+	    Producto producto = dao.buscarProductoPorId(id);
+	    if (producto == null) {
+	        return "redirect:/producto/lista";
+	    }
 
-		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-		if (carrito == null) {
-			carrito = new ArrayList<>();
-			session.setAttribute("carrito", carrito);
-		}
+	    if (producto.getStock() <= 0) {
+	        System.out.println("Producto sin stock: " + producto.getNombre());
+	        return "redirect:/producto/lista"; // o mostrar un mensaje de error
+	    }
 
-		boolean encontrado = false;
-		for (LineaPedido lp : carrito) {
-			if (lp.getProducto().getId() == producto.getId()) {
-				lp.setCantidad(lp.getCantidad() + 1);
-				encontrado = true;
-				break;
-			}
-		}
+	    List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+	    if (carrito == null) {
+	        carrito = new ArrayList<>();
+	        session.setAttribute("carrito", carrito);
+	    }
 
-		if (!encontrado) {
-			LineaPedido linea = new LineaPedido();
-			linea.setProducto(producto);
-			linea.setCantidad(1);
-			linea.setPrecioUnitario(producto.getPrecio());
-			carrito.add(linea);
-		}
+	    boolean encontrado = false;
+	    for (LineaPedido lp : carrito) {
+	        if (lp.getProducto().getId() == producto.getId()) {
+	            int cantidadActual = lp.getCantidad();
+	            if (cantidadActual + 1 > producto.getStock()) {
+	                System.out.println("Intento de superar el stock disponible para: " + producto.getNombre());
+	                return "redirect:/producto/lista";
+	            }
 
-		int cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
-		session.setAttribute("carritoCantidad", cantidadTotal);
+	            lp.setCantidad(cantidadActual + 1);
+	            encontrado = true;
+	            break;
+	        }
+	    }
 
-		return "redirect:/producto/lista";
+	    if (!encontrado) {
+	        LineaPedido linea = new LineaPedido();
+	        linea.setProducto(producto);
+	        linea.setCantidad(1);
+	        linea.setPrecioUnitario(producto.getPrecio());
+	        carrito.add(linea);
+	    }
+
+	    int cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
+	    session.setAttribute("carritoCantidad", cantidadTotal);
+
+	    return "redirect:/producto/lista";
 	}
 }

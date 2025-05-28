@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dam2.TFG.Film24.dao.Film24DAO;
 import dam2.TFG.Film24.modelo.LineaPedido;
@@ -124,18 +125,18 @@ public class ControladorPedido {
     
     //Borrar productos del carrito
     
+    
+    
     @PostMapping("/eliminarLinea")
-    public String eliminarLineaPedido(HttpSession session, Long idProducto) {
+    public String eliminarLineaPedido(@RequestParam("idProducto") Long idProducto, HttpSession session) {
         List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-        if (carrito == null) return "redirect:/pedido/finalizar";
+        if (carrito == null)
+            return "redirect:/pedido/finalizar";
 
         LineaPedido lineaAEliminar = null;
 
         for (LineaPedido lp : carrito) {
-            if (lp.getProducto().getId()==(idProducto)) {
-                // Devolver el stock
-                Producto producto = lp.getProducto();
-                
+            if (lp.getProducto().getId()==idProducto) {
                 lineaAEliminar = lp;
                 break;
             }
@@ -149,23 +150,6 @@ public class ControladorPedido {
         return "redirect:/pedido/finalizar";
     }
     
-    @PostMapping("/vaciar")
-    public String vaciarCarrito(HttpSession session) {
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-        if (carrito != null) {
-            // Devolver el stock de todos los productos
-            for (LineaPedido lp : carrito) {
-                Producto producto = lp.getProducto();
-                producto.setStock(producto.getStock() + lp.getCantidad());
-                dao.actualizarProducto(producto);
-            }
-            session.removeAttribute("carrito");
-            session.setAttribute("carritoCantidad", 0);
-            System.out.println("Carrito vaciado correctamente.");
-        } else {
-            System.out.println("El carrito ya estaba vacío.");
-        }
-
-        return "redirect:/pedido/finalizar"; 
-}
+    
+    
     }

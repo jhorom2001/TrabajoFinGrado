@@ -90,31 +90,39 @@
 				</a>
 			</div>
 		</div>
+		
+
 
 		<div class="row g-4">
-			<div class="col-4" th:each="producto : ${productos}">
-				<div class="card card-producto h-100 shadow-sm">
-					<img th:src="@{${producto.imagen}}" class="card-img-top" alt="Imagen del producto">
-					<div class="card-body text-center">
-						<h5 class="card-title" th:text="${producto.nombre}">Nombre del producto</h5>
-						<p class="card-text text-success fw-bold" th:text="${producto.precio} + ' €'">0.0 €</p>
-						<form th:action="@{/producto/comprar/{id}(id=${producto.id})}" method="post">
-							<button type="submit"
-							        class="btn btn-warning btn-icon w-100"
-							        th:disabled="${producto.stock == 0 or
-							                      (carrito != null and
-							                       carrito.?[producto.id == producto.id].size() > 0 and
-							                       carrito.?[producto.id == producto.id][0].cantidad >= producto.stock)}">
-							    <i class="fas fa-cart-plus" th:if="${producto.stock > 0}"></i>
-							    <span th:text="${(carrito != null and carrito.?[producto.id == producto.id].size() > 0 and carrito.?[producto.id == producto.id][0].cantidad >= producto.stock) ? 'Agotado' : (producto.stock > 0 ? 'Añadir al carrito' : 'Agotado')}">
-							        Añadir al carrito
-							    </span>
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
+		    <div class="col-12 col-sm-6 col-md-4" 
+		         th:each="producto : ${productos}" 
+		         th:with="linea=${carritoMapa[producto.id]}">
+		        <div class="card card-producto h-100 shadow-sm">
+		            <img th:src="@{${producto.imagen}}" class="card-img-top" alt="Imagen del producto">
+		            <div class="card-body text-center">
+		                <h5 class="card-title" th:text="${producto.nombre}">Nombre del producto</h5>
+		                <p class="card-text text-success fw-bold" th:text="${producto.precio} + ' €'">0.0 €</p>
+		                <form th:action="@{/producto/comprar/{id}(id=${producto.id})}" method="post">
+		                    <button type="submit" class="btn btn-warning btn-icon w-100"
+		                            th:disabled="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)}">
+
+		                        <i class="fas fa-cart-plus"
+		                           th:if="${producto.stock > 0 and (linea == null or linea.cantidad < producto.stock)}"></i>
+
+		                        <span th:text="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)
+		                                           ? 'Agotado' 
+		                                           : 'Añadir al carrito'}">
+		                            Añadir al carrito
+		                        </span>
+		                    </button>
+		                </form>
+		                
+		            </div>
+		        </div>
+		    </div>
 		</div>
+		
+		
 
 		<footer class="footer mt-5">
 			<p>2025 Tu Tienda Online. Todos los derechos reservados.</p>

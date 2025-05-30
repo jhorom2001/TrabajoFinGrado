@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dam2.TFG.Film24.modelo.LineaPedido;
 import dam2.TFG.Film24.modelo.Producto;
@@ -33,19 +35,24 @@ public class ConsultaProducto {
 
 	    List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
 	    int cantidadTotal = 0;
-	    if (carrito != null) {
-	        cantidadTotal = carrito.stream().mapToInt(LineaPedido::getCantidad).sum();
-	    }
-	    model.addAttribute("carritoCantidad", cantidadTotal);
+	    Map<Integer, LineaPedido> mapaCarrito = new HashMap<>();
 
-	    // Pasamos carrito completo para poder usarlo en Thymeleaf
-	    model.addAttribute("carrito", carrito);
+	    if (carrito != null) {
+	        for (LineaPedido lp : carrito) {
+	            cantidadTotal += lp.getCantidad();
+	            mapaCarrito.put(lp.getProducto().getId(), lp);
+	        }
+	    }
+
+	    model.addAttribute("carritoCantidad", cantidadTotal);
+	    model.addAttribute("carritoMapa", mapaCarrito); 
 
 	    return "listaProducto";
 	}
 
 	@PostMapping("/comprar/{id}")
-	public String comprarProducto(@PathVariable Long id, HttpSession session) {
+	public String comprarProducto(@PathVariable("id") Long id
+, HttpSession session) {
 	    Producto producto = dao.buscarProductoPorId(id);
 	    if (producto == null) {
 	        return "redirect:/producto/lista";

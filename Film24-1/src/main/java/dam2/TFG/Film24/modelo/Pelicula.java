@@ -24,6 +24,7 @@ public class Pelicula {
 	private int anyo;
 	private String imagen;
 	private boolean visualizada = false;
+	private String urlTrailer;
 
 	@OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL)
 	private List<Resenna> resennas;
@@ -117,8 +118,22 @@ public class Pelicula {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-
 	
+	public String getUrlTrailer() {
+		return urlTrailer;
+	}
+
+	public void setUrlTrailer(String urlTrailer) {
+		this.urlTrailer = urlTrailer;
+	}
+
+	public List<Visualizacion> getVisualizaciones() {
+		return visualizaciones;
+	}
+
+	public void setVisualizaciones(List<Visualizacion> visualizaciones) {
+		this.visualizaciones = visualizaciones;
+	}
 
 	public List<Resenna> getResennas() {
 		return resennas;

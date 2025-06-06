@@ -39,6 +39,9 @@
 			line-height: 1.6;
 		}
 
+
+
+
 		.navbar {
 			background-color: var(--dark-color);
 			position: fixed;
@@ -322,6 +325,14 @@
 			color: #aaa;
 			font-size: 0.9rem;
 		}
+
+		.bg-striped-light {
+			background-color: #e0f7fa;
+		}
+
+		.bg-striped-dark {
+			background-color: cadetblue;
+		}
 	</style>
 </head>
 
@@ -330,8 +341,11 @@
 		<nav class="navbar navbar-expand-lg navbar-dark">
 			<div class="container">
 				<a class="navbar-brand" th:href="@{/}">
-					<i class="fas fa-film"></i>Pelix25
-				</a>
+					<a class="navbar-brand d-flex align-items-center" href="#" th:href="@{/}">
+						<img th:src="@{/images/popCornApp.png}" alt="Logo PopCornApp" width="40" height="40"
+							class="me-2">
+						PopCornApp
+					</a> </a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -392,7 +406,7 @@
 
 			<section class="hero-section animate__animated animate__fadeIn">
 				<div class="hero-content text-center">
-					<h1 class="animate__animated animate__fadeInDown">Bienvenido a Pelix25</h1>
+					<h1 class="animate__animated animate__fadeInDown">Bienvenido a PopCornApp</h1>
 					<p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
 						Explora nuestro catálogo exclusivo de películas, series y documentales.
 						Disfruta del mejor contenido cuando y donde quieras.
@@ -448,13 +462,152 @@
 		</div>
 	</main>
 
+
+	<section class="py-5 bg-striped-light">
+		<div class="container text-center">
+			<h2 class="fw-bold mb-4">PopCorn App Spain</h2>
+			<p class="lead mb-5">Distribuidor líder en España especializado en productos para fotografía analógica,
+				respaldado por cuatro pilares fundamentales:</p>
+
+			<div class="row text-start justify-content-center">
+				<div class="col-md-6 col-lg-5 mb-4">
+					<h5 class="fw-semibold"><i class="fas fa-cogs me-2 text-primary"></i>Tecnología</h5>
+					<p>Contamos con un sistema propio de seguimiento de pedidos y gestión logística para garantizar una
+						entrega eficaz.</p>
+				</div>
+				<div class="col-md-6 col-lg-5 mb-4">
+					<h5 class="fw-semibold"><i class="fas fa-user-clock me-2 text-primary"></i>Experiencia</h5>
+					<p>Más de 10 años ofreciendo productos fotográficos de alta calidad a aficionados, estudios y
+						comercios especializados.</p>
+				</div>
+				<div class="col-md-6 col-lg-5 mb-4">
+					<h5 class="fw-semibold"><i class="fas fa-check-circle me-2 text-primary"></i>Calidad</h5>
+					<p>Todos nuestros procesos —desde la selección hasta el envío— están enfocados en ofrecer excelencia
+						y confianza.</p>
+				</div>
+				<div class="col-md-6 col-lg-5 mb-4">
+					<h5 class="fw-semibold"><i class="fas fa-handshake me-2 text-primary"></i>Flexibilidad</h5>
+					<p>Nos adaptamos a las necesidades específicas de cada cliente, ofreciendo soluciones rápidas y
+						personalizadas.</p>
+				</div>
+			</div>
+
+			<hr class="my-5">
+
+			<h3 class="fw-bold mb-3">Nuestros clientes</h3>
+			<p>Trabajamos con estudios profesionales, tiendas especializadas, museos, escuelas de fotografía y
+				apasionados de lo analógico en toda España. Nos eligen por nuestro compromiso, calidad y trato cercano.
+			</p>
+		</div>
+	</section>
+
+
+	<section class="contacta-con-nosotros py-5 text-center bg-striped-dark">
+		<div class="container">
+			<h2 class="mb-4 fw-bold">¿Necesitas ayuda? ¡Contacta con nosotros!</h2>
+			<p class="mb-4">Estamos disponibles para resolver tus dudas o ayudarte con lo que necesites.</p>
+			<div class="d-flex justify-content-center flex-wrap gap-3">
+				<a href="tel:+34699596940" class="btn btn-outline-dark px-4 py-2">
+					<i class="fas fa-phone-alt me-2"></i>Llamar
+				</a>
+				<a href="https://wa.me/34699596940" target="_blank" class="btn btn-success px-4 py-2">
+					<i class="fab fa-whatsapp me-2"></i>WhatsApp
+				</a>
+				<a href="mailto:atencionalcliente@filmstorespain.es" class="btn btn-primary px-4 py-2">
+					<i class="fas fa-envelope me-2"></i>Correo electrónico
+				</a>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="tecnologia-sostenibilidad py-5 bg-striped-light">
+		<div class="container">
+			<h2 class="mb-4 fw-bold text-center">Tecnología y Sostenibilidad en Nuestra Plataforma de Películas</h2>
+			<p class="mb-4">
+				En <strong>TuPáginaDePelículas</strong> apostamos por la tecnología más avanzada para ofrecerte la mejor
+				experiencia de usuario. Nuestra plataforma utiliza sistemas de streaming optimizados y un diseño
+				intuitivo para que disfrutes de tus películas favoritas sin interrupciones.
+			</p>
+			<p class="mb-4">
+				Además, nos comprometemos con la sostenibilidad ambiental. Utilizamos servidores que funcionan con
+				energía renovable y promovemos prácticas responsables para reducir nuestra huella ecológica.
+			</p>
+			<p class="mb-4">
+				Implementamos tecnologías innovadoras como la inteligencia artificial para recomendar películas basadas
+				en tus gustos y para mejorar continuamente nuestro servicio.
+			</p>
+			<div class="text-center mt-5">
+				<a href="/localizarEnvio" class="btn btn-primary px-4 py-2">
+					Localiza tu envío
+				</a>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="py-5 bg-light">
+		<div class="container">
+			<h2 class="fw-bold mb-4 text-center">🎬 Últimas noticias</h2>
+			<div class="row g-4">
+				<div class="col-md-4">
+					<div class="card h-100 shadow-sm">
+						<img th:src="@{/images/luzMediaNoche.png}" class="card-img-top" alt="Luz de Medianoche">
+						<div class="card-body">
+							<h5 class="card-title">“Luz de Medianoche” arrasa en taquilla</h5>
+							<p class="card-text"><strong>Madrid, 3 de junio de 2025</strong><br>
+								La esperada cinta de ciencia ficción <em>Luz de Medianoche</em>, dirigida por Carla
+								Rivas, ha superado todas las expectativas al recaudar más de 15 millones de euros en su
+								estreno. Protagonizada por Javier Rey y Macarena García, la película promete ser uno de
+								los éxitos del año.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card h-100 shadow-sm">
+						<img th:src="@{/images/visitas.png}" class="card-img-top" alt="Millón de visitas">
+
+						<div class="card-body">
+							<h5 class="card-title">Nuestro portal supera el millón de visitas mensuales</h5>
+							<p class="card-text"><strong>Madrid, 29 de mayo de 2025</strong><br>
+								Gracias a nuestros lectores, la página ha alcanzado un nuevo récord de tráfico con más
+								de 1.000.000 de visitas en el último mes. Agradecemos el apoyo constante de nuestra
+								comunidad cinéfila y seguimos trabajando para ofrecer las mejores críticas, tráilers y
+								estrenos.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card h-100 shadow-sm">
+						<img th:src="@{/images/Festival.png}" class="card-img-top" alt="Festival de Málaga">
+
+						<div class="card-body">
+							<h5 class="card-title">Festival de Cine de Málaga 2025: ganadores y sorpresas</h5>
+							<p class="card-text"><strong>Málaga, 25 de mayo de 2025</strong><br>
+								La 28ª edición del Festival de Cine de Málaga concluyó con sorpresas y grandes
+								reconocimientos. El filme <em>Eco del Silencio</em> se llevó la Biznaga de Oro a Mejor
+								Película, mientras que Aitana Sánchez-Gijón recibió un emotivo homenaje por su
+								trayectoria.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
 	<!-- Footer -->
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 mb-4">
 					<span class="footer-logo">
-						<i class="fas fa-film"></i> Pelix25
+						<i class="fas fa-film"></i> PopCornApp
 					</span>
 					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
 					<div class="social-icons">

@@ -22,17 +22,17 @@ public class AltaPelicula {
     @Autowired
     private Film24DAO dao;
 
-    @GetMapping("/altaPelicula")
-    public String altaPelicula(Model model) {
+    @GetMapping("/altaPelicula")// este es del html de interfazAdmin
+    public String altaPelicula(Model model) {// pasar datos desde el contralador a la vista(html)
         model.addAttribute("peliculaForm", new Pelicula());
-        return "altaPelicula";
+        return "altaPelicula"; //este es el propio html(formulario vacio)
     }
 
-    @PostMapping("/altaPelicula/submit")
-    public String altaPeliculaSubmit(Pelicula pelicula, Model model) {
+    @PostMapping("/altaPelicula/submit") // formulario relleno del html de confirmaciones
+    public String altaPeliculaSubmit(Pelicula pelicula, Model model) { // objeto que se rellena cogiendo los campos
         dao.altaPelicula(pelicula);
         model.addAttribute("peliculaForm", pelicula);
-        return "confirmacionAltaPelicula";
+        return "confirmacionAltaPelicula"; // html de dado de alta correctamente
     }
 
     @GetMapping("/listaPeliculasParaUsuario")
@@ -45,8 +45,8 @@ public class AltaPelicula {
 
         List<Visualizacion> visualizaciones = dao.obtenerVisualizacionesPorUsuario(usuario);
         List<Integer> peliculasVisualizadas = visualizaciones.stream().filter(Visualizacion::isEnProgreso)
-            .map(v -> v.getPelicula().getId())
-            .toList();
+            .map(v -> v.getPelicula().getId()).toList();// obtener el objeto de la pelicula y su id
+            
 
         model.addAttribute("peliculasVisualizadas", peliculasVisualizadas);
         return "listaPeliculasParaUsuario";

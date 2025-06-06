@@ -108,10 +108,19 @@
 				<tbody>
 					<tr th:each="pelicula : ${listaPeliculas}">
 						<td>
-							<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}">
-								<img th:src="${pelicula.imagen}" alt="Imagen de la película" class="img-fluid"
-									style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;" />
-							</a>
+							<div class="text-center">
+								<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}">
+									<img th:src="${pelicula.imagen}" alt="Imagen de la película" class="img-fluid"
+										style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;" />
+								</a>
+								<br />
+								<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}" class="text-decoration-none">
+									<i class="fas fa-comment text-primary mt-2" style="font-size: 1.5rem;"
+										title="Ver detalles y opinar"></i>
+									<div style="font-size: 0.9rem;">Opinar</div>
+								</a>
+							</div>
+
 						</td>
 						<td th:text="${pelicula.titulo}"></td>
 						<td th:text="${pelicula.anyo}"></td>

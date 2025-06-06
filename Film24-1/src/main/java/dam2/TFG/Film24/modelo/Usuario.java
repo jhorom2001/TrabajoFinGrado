@@ -47,7 +47,7 @@ public class Usuario {
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Usuario() {
-		
+	//Para crear instancias por reflexión desde la base de datos	
 	}
 	
 	public Usuario(String nombre,String dni, String apellido, int edad, String correoElectronico, String password) {

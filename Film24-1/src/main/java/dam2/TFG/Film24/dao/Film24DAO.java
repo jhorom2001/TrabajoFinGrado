@@ -31,7 +31,7 @@ public class Film24DAO {
 	private VisualizacionRepository visualizacionRepository;
 
 	@PersistenceContext
-	private EntityManager em;
+	private EntityManager em; // interfaz principal para interactuar con la bbdd  de forma orientada a objetos.jpa
 
 	// USUARIOS
 	public void altaUsuario(Usuario u) {
@@ -182,10 +182,10 @@ public class Film24DAO {
 		return em.find(Noticia.class, id);
 	}
 
-	// CONSULTAS
+	// CONSULTAS(lista de peliculas para usuario)
 	public List<Pelicula> listaPeliculas() {
-		String jpql = "SELECT p FROM Pelicula p";
-		return em.createQuery(jpql, Pelicula.class).getResultList();
+		String jpql = "SELECT p FROM Pelicula p"; // cadena jpql
+		return em.createQuery(jpql, Pelicula.class).getResultList();// em interactua con la bbdd crea consulta 
 	}
 
 	public List<Usuario> listaUsuarios() {

@@ -22,10 +22,9 @@ public class AsignarPelicula {
 
 	@Autowired
 	private Film24DAO dao;
-	
+
 	@Autowired
 	PeliculaRepository peliculaRepository;
-	
 
 	// ASIGNAR PELICULA
 	@GetMapping("/asignarPelicula")
@@ -34,49 +33,31 @@ public class AsignarPelicula {
 		return "AsignarPelicula.html";
 	}
 
-	/*@PostMapping("/asignarPelicula/submit")
-	public String asignarPeliculasubmit(@RequestParam("peliculaId") int peliculaId, Model model) {
-
-	    // Obtener el usuario autenticado desde el contexto de seguridad
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal(); 
-	    Usuario usuario = userDetails.getUsuario(); 
-
-	    // Obtener la película por ID
-	    Pelicula pelicula = dao.consultarPelicula(peliculaId);
-
-	    if (usuario != null && pelicula != null) {
-	        dao.asignarPelicula(usuario, pelicula);
-	        return "verTrailer";
-	    } else {
-	        return "Errores.html";
-	    }
-	}*/
-	
 	@PostMapping("/asignarPelicula/submit")
 	public String asignarPeliculaSubmit(@RequestParam("peliculaId") int peliculaId, Model model) {
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
-	    Usuario usuario = userDetails.getUsuario();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+		Usuario usuario = userDetails.getUsuario();
 
-	    Pelicula pelicula = dao.consultarPelicula(peliculaId);
+		Pelicula pelicula = dao.consultarPelicula(peliculaId);
 
-	    if (usuario != null && pelicula != null) {
-	        dao.asignarPelicula(usuario, pelicula);
+		if (usuario != null && pelicula != null) {
+			dao.asignarPelicula(usuario, pelicula);
 
-	        // Añadir la película al modelo para mostrar en la vista
-	        model.addAttribute("pelicula", pelicula);
+			// Añadir la película al modelo para mostrar en la vista
+			model.addAttribute("pelicula", pelicula);
 
-	        return "redirect:/verTrailer/" + peliculaId;
-	    } else {
-	        return "Errores.html";
-	    }
+			return "redirect:/verTrailer/" + peliculaId;
+		} else {
+			return "Errores.html";
+		}
 	}
-	
+
 	@GetMapping("/verTrailer/{id}")
 	public String verTrailer(@PathVariable("id") Integer id, Model model) {
-	    Pelicula pelicula = peliculaRepository.findById(id).orElseThrow(() -> new RuntimeException("Película no encontrada"));
-	    model.addAttribute("pelicula", pelicula);
-	    return "verTrailer";
+		Pelicula pelicula = peliculaRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Película no encontrada"));
+		model.addAttribute("pelicula", pelicula);
+		return "verTrailer";
 	}
 }

@@ -20,7 +20,6 @@ public class Producto {
     private int stock;
 
   
-
     public Producto() {
     	
     }

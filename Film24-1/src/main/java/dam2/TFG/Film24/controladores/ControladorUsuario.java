@@ -27,6 +27,11 @@ public class ControladorUsuario {
 	public String localizacion(Model model) {
 		return "localizacion";
 	}
+	
+	@GetMapping("/localizarEnvio")
+	public String localizarEnvio(Model model) {
+		return "localizarEnvio";
+	}
 
 	@GetMapping("/ConfirmacionVisualizacion")
 	public String confirmacionVisualizacion(Model model) {

@@ -168,10 +168,13 @@
 		</div>
 
 		<div class="total">
-			Total del Pedido: <span th:text="${totalPedido}">0.0</span>€
+			Total del Pedido: <span th:text="${session.totalPedidoFormateado}">0.00</span>€
+
+
+
 		</div>
 
-			<div class="acciones">
+		<div class="acciones">
 			<form th:action="@{/pedido/tipoDePago}" method="get">
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<button type="submit" class="btn btn-confirmar">
@@ -182,7 +185,7 @@
 			<a th:href="@{/producto/lista}" class="btn btn-volver">
 				<i class="fas fa-arrow-left me-2"></i>Seguir Comprando
 			</a>
-			
+
 		</div>
 	</div>
 

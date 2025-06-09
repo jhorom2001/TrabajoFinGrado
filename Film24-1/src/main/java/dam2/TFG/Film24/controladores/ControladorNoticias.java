@@ -64,6 +64,15 @@ public class ControladorNoticias {
 		return "postsParaUsuario";
 	}
 
+	
+
+	@GetMapping("/usuarioLogeado")
+	public String usuarioLogeado(Model model) {
+		List<Noticia> listaNoticias = dao.listaNoticias();
+		model.addAttribute("listaNoticias", listaNoticias);
+		return "usuarioLogeado";
+	}
+	
 	@GetMapping("/detalleNoticia/{id}")
 	public String detalleNoticia(@PathVariable("id") int id, Model model) {
 		Noticia noticia = noticiaRepository.findById(id)
@@ -71,5 +80,10 @@ public class ControladorNoticias {
 		model.addAttribute("noticia", noticia);
 		return "detalleNoticia";
 	}
+	
+	
+	
+	
+	
 
 }

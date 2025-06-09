@@ -39,7 +39,10 @@
 			line-height: 1.6;
 		}
 
-
+		.blog-post {
+			margin-left: 15px;
+			margin-right: 15px;
+		}
 
 
 		.navbar {
@@ -181,6 +184,8 @@
 			overflow: hidden;
 			position: relative;
 		}
+
+
 
 		.card:before {
 			content: '';
@@ -340,16 +345,11 @@
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-dark">
 			<div class="container">
-				<a class="navbar-brand" th:href="@{/}">
-					<a class="navbar-brand d-flex align-items-center" href="#" th:href="@{/}">
-						<img th:src="@{/images/popCornApp.png}" alt="Logo PopCornApp" width="40" height="40"
-							class="me-2">
-						PopCornApp
-					</a> </a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+				<a class="navbar-brand d-flex align-items-center" href="#" th:href="@{/}">
+					<img th:src="@{/images/popCornApp.png}" alt="Logo PopCornWeb" width="40" height="40" class="me-2">
+					PopCornWeb
+				</a>
+
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto">
 
@@ -378,12 +378,18 @@
 							</ul>
 						</li>
 
-
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/listaPedidos}">Mis Pedidos</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/postsParaUsuario}">Blog</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link d-flex align-items-center" th:href="@{/menu}">
+								Menú
+								<i class="fas fa-bars ms-2"></i>
+							</a>
 						</li>
 
 
@@ -399,6 +405,7 @@
 				</div>
 			</div>
 		</nav>
+
 	</header>
 
 	<main class="main-container">
@@ -406,7 +413,7 @@
 
 			<section class="hero-section animate__animated animate__fadeIn">
 				<div class="hero-content text-center">
-					<h1 class="animate__animated animate__fadeInDown">Bienvenido a PopCornApp</h1>
+					<h1 class="animate__animated animate__fadeInDown">Bienvenido a PopCornWeb</h1>
 					<p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
 						Explora nuestro catálogo exclusivo de películas, series y documentales.
 						Disfruta del mejor contenido cuando y donde quieras.
@@ -546,57 +553,24 @@
 	</section>
 
 
-	<section class="py-5 bg-light">
-		<div class="container">
-			<h2 class="fw-bold mb-4 text-center">🎬 Últimas noticias</h2>
-			<div class="row g-4">
-				<div class="col-md-4">
-					<div class="card h-100 shadow-sm">
-						<img th:src="@{/images/luzMediaNoche.png}" class="card-img-top" alt="Luz de Medianoche">
-						<div class="card-body">
-							<h5 class="card-title">“Luz de Medianoche” arrasa en taquilla</h5>
-							<p class="card-text"><strong>Madrid, 3 de junio de 2025</strong><br>
-								La esperada cinta de ciencia ficción <em>Luz de Medianoche</em>, dirigida por Carla
-								Rivas, ha superado todas las expectativas al recaudar más de 15 millones de euros en su
-								estreno. Protagonizada por Javier Rey y Macarena García, la película promete ser uno de
-								los éxitos del año.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card h-100 shadow-sm">
-						<img th:src="@{/images/visitas.png}" class="card-img-top" alt="Millón de visitas">
 
-						<div class="card-body">
-							<h5 class="card-title">Nuestro portal supera el millón de visitas mensuales</h5>
-							<p class="card-text"><strong>Madrid, 29 de mayo de 2025</strong><br>
-								Gracias a nuestros lectores, la página ha alcanzado un nuevo récord de tráfico con más
-								de 1.000.000 de visitas en el último mes. Agradecemos el apoyo constante de nuestra
-								comunidad cinéfila y seguimos trabajando para ofrecer las mejores críticas, tráilers y
-								estrenos.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card h-100 shadow-sm">
-						<img th:src="@{/images/Festival.png}" class="card-img-top" alt="Festival de Málaga">
 
-						<div class="card-body">
-							<h5 class="card-title">Festival de Cine de Málaga 2025: ganadores y sorpresas</h5>
-							<p class="card-text"><strong>Málaga, 25 de mayo de 2025</strong><br>
-								La 28ª edición del Festival de Cine de Málaga concluyó con sorpresas y grandes
-								reconocimientos. El filme <em>Eco del Silencio</em> se llevó la Biznaga de Oro a Mejor
-								Película, mientras que Aitana Sánchez-Gijón recibió un emotivo homenaje por su
-								trayectoria.
-							</p>
-						</div>
+	<div class="row">
+		<div th:each="noticia : ${listaNoticias}" class="col-md-4 mb-4">
+			<div class="blog-post animate__animated animate__fadeInUp">
+				<img th:src="${noticia.imagenUrl}" alt="Imagen noticia" class="img-fluid rounded" />
+				<div class="post-content">
+					<a th:href="@{'/detalleNoticia/' + ${noticia.id}}" class="post-title d-block fs-5 fw-bold mt-2"
+						th:text="${noticia.titulo}"></a>
+					<p class="post-snippet" th:text="${#strings.abbreviate(noticia.contenido, 150)}"></p>
+					<div class="post-meta">
+						<small class="text-muted">Publicado el <span
+								th:text="${noticia.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy'))}"></span></small>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
 
 
 
@@ -607,7 +581,7 @@
 			<div class="row">
 				<div class="col-md-4 mb-4">
 					<span class="footer-logo">
-						<i class="fas fa-film"></i> PopCornApp
+						<i class="fas fa-film"></i> PopCornWeb
 					</span>
 					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
 					<div class="social-icons">

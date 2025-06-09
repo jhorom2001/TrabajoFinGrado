@@ -1,5 +1,6 @@
 package dam2.TFG.Film24.controladores;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,11 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+
 import dam2.TFG.Film24.dao.Film24DAO;
 import dam2.TFG.Film24.modelo.LineaPedido;
 import dam2.TFG.Film24.modelo.Pedido;
 import dam2.TFG.Film24.modelo.Producto;
 import dam2.TFG.Film24.modelo.Usuario;
+import dam2.TFG.Film24.util.StripeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -24,132 +29,141 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/pedido")
 public class ControladorPedido {
 
-    @Autowired
-    private Film24DAO dao;
+	@Autowired
+	private Film24DAO dao;
 
-    @GetMapping("/finalizar")
-    public String mostrarResumenPedido(HttpSession session, Model model, HttpServletRequest request) {
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+	@Autowired
+	private StripeService stripeService;
 
-        System.out.println("Accediendo a resumen del pedido...");
-        if (carrito == null) {
-            System.out.println("Carrito vacío o no encontrado.");
-        } else {
-            System.out.println("Carrito con " + carrito.size() + " producto(s).");
-        }
+	@GetMapping("/finalizar")
+	public String mostrarResumenPedido(HttpSession session, Model model, HttpServletRequest request) {
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
 
-        model.addAttribute("carrito", carrito);
+		if (carrito == null || carrito.isEmpty()) {
+			return "redirect:/producto/lista";
+		}
 
-        // Calcular total
-        double total = 0;
-        if (carrito != null) {
-            for (LineaPedido lp : carrito) {
-                total += lp.getCantidad() * lp.getPrecioUnitario();
-            }
-        }
-        model.addAttribute("totalPedido", total);
+		model.addAttribute("carrito", carrito);
 
-        // CSRF token para el formulario
-        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-        model.addAttribute("_csrf", token);
+		double total = 0;
+		for (LineaPedido lp : carrito) {
+			total += lp.getCantidad() * lp.getPrecioUnitario();
+		}
+		model.addAttribute("totalPedido", total);
+		
+		DecimalFormat df = new DecimalFormat("#0.00");
+		String totalFormateado = df.format(total);
+		session.setAttribute("totalPedidoFormateado", totalFormateado);
 
-        return "finalizar";
-    }
+		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+		model.addAttribute("_csrf", token);
 
+		return "finalizar";
+	}
 
-    @PostMapping("/finalizar")
-    public String finalizarPedido(HttpSession session) {
-        System.out.println("POST /pedido/finalizar invocado");
+	@PostMapping("/finalizar")
+	public String procesarFinalizarCompra(HttpSession session) {
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+		if (carrito == null || carrito.isEmpty()) {
+			return "redirect:/producto/lista";
+		}
+		return "redirect:/pedido/tipoDePago";
+	}
 
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+	@PostMapping("/procesarPago")
+	public String procesarPago(@RequestParam("paymentMethodId") String paymentMethodId, HttpSession session,
+			Model model) {
+		System.out.println("POST REALIZANDOSE...");
 
-        if (usuario == null) {
-            System.out.println("Usuario no logueado.");
-        } else {
-            System.out.println("Usuario logueado: " + usuario.getNombre());
-        }
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
-        if (carrito == null || carrito.isEmpty()) {
-            System.out.println("El carrito está vacío. Redirigiendo a lista de productos.");
-            return "redirect:/producto/lista";
-        }
+		if (carrito == null || carrito.isEmpty() || usuario == null) {
+			return "redirect:/producto/lista";
+		}
 
-        // Crear y guardar el pedido
-        Pedido pedido = new Pedido();
-        pedido.setUsuario(usuario);
-        pedido.setFecha(LocalDateTime.now());
+		double total = carrito.stream().mapToDouble(lp -> lp.getCantidad() * lp.getPrecioUnitario()).sum();
 
-        for (LineaPedido lp : carrito) {
-            lp.setPedido(pedido);
-        }
-        pedido.setLineas(carrito);
+		try {
+			PaymentIntent intent = stripeService.crearPaymentIntent(paymentMethodId, total);
 
-        pedido.recalcularTotal();
-        
-        for (LineaPedido lp : carrito) {
-            Producto producto = lp.getProducto();
-            int nuevoStock = producto.getStock() - lp.getCantidad();
-            producto.setStock(nuevoStock);
-            dao.actualizarProducto(producto);
-        }
-        System.out.println("Total del pedido: " + pedido.getTotal());
+			if ("succeeded".equals(intent.getStatus())) {
+				System.out.println("Pago exitoso. Guardando pedido...");
+				// Guardar pedido
+				Pedido pedido = new Pedido();
+				pedido.setUsuario(usuario);
+				pedido.setFecha(LocalDateTime.now());
+				pedido.setLineas(carrito);
+				pedido.recalcularTotal();
 
-        for (LineaPedido lp : carrito) {
-            System.out.println("Producto: " + lp.getProducto().getNombre() +
-                               ", Cantidad: " + lp.getCantidad() +
-                               ", Precio Unitario: " + lp.getPrecioUnitario());
-        }
+				for (LineaPedido lp : carrito) {
+					lp.setPedido(pedido);
+					Producto producto = lp.getProducto();
+					producto.setStock(producto.getStock() - lp.getCantidad());
+					dao.actualizarProducto(producto);
+				}
 
-        dao.altaPedido(pedido);
-        System.out.println("Pedido guardado correctamente.");
+				dao.altaPedido(pedido);
+				session.removeAttribute("carrito");
 
-        session.removeAttribute("carrito");
-        System.out.println("Carrito limpiado de la sesión.");
+				return "confirmacionPedido";
+			} else {
+				System.out.println("Pago no completado. Estado: " + intent.getStatus());
+				model.addAttribute("error", "El pago no se completó: " + intent.getStatus());
+				return "pagoDenegado";
+			}
+		} catch (StripeException e) {
+			System.out.println("Excepción en Stripe: " + e.getMessage());
+			model.addAttribute("error", "Error al procesar el pago: " + e.getMessage());
+			return "pagoDenegado";
+		}
+	}
 
-        return "redirect:/pedido/confirmado";
-    }
+	@GetMapping("/tipoDePago")
+	public String mostrarTipoDePago(Model model, HttpServletRequest request) {
+		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+		model.addAttribute("_csrf", token);
+		return "tipoDePago";
+	}
 
-    //POR VER EL DE LA TIENDA
-    @GetMapping("/tipoDePago")
-    public String mostrarTipoDePago(Model model) {
-        return "tipoDePago";
-    }
+	@GetMapping("/confirmado")
+	public String pedidoConfirmado() {
+		System.out.println("Mostrando página de pedido confirmado.");
+		return "confirmacionPedido";
+	}
 
-    
-    @GetMapping("/confirmado")
-    public String pedidoConfirmado() {
-        System.out.println("Mostrando página de pedido confirmado.");
-        return "confirmacionPedido";
-    }
-    
-    //Borrar productos del carrito
-    
-    
-    
-    @PostMapping("/eliminarLinea")
-    public String eliminarLineaPedido(@RequestParam("idProducto") Long idProducto, HttpSession session) {
-        List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
-        if (carrito == null)
-            return "redirect:/pedido/finalizar";
+	@PostMapping("/eliminarLinea")
+	public String eliminarLineaPedido(@RequestParam("idProducto") Long idProducto, HttpSession session) {
+		List<LineaPedido> carrito = (List<LineaPedido>) session.getAttribute("carrito");
+		if (carrito == null)
+			return "redirect:/pedido/finalizar";
 
-        LineaPedido lineaAEliminar = null;
+		LineaPedido lineaAEliminar = null;
 
-        for (LineaPedido lp : carrito) {
-            if (lp.getProducto().getId()==idProducto) {
-                lineaAEliminar = lp;
-                break;
-            }
-        }
+		for (LineaPedido lp : carrito) {
+			if (lp.getProducto().getId() == idProducto) {
+				lineaAEliminar = lp;
+				break;
+			}
 
-        if (lineaAEliminar != null) {
-            carrito.remove(lineaAEliminar);
-            session.setAttribute("carrito", carrito);
-        }
+		}
 
-        return "redirect:/pedido/finalizar";
-    }
-    
-    
-    
-    }
+		if (lineaAEliminar != null) {
+			carrito.remove(lineaAEliminar);
+
+			double total = 0;
+			for (LineaPedido lp : carrito) {
+				total += lp.getCantidad() * lp.getPrecioUnitario();
+			}
+
+			DecimalFormat df = new DecimalFormat("#0.00");
+			String totalFormateado = df.format(total);
+
+			session.setAttribute("carrito", carrito);
+			session.setAttribute("totalPedidoFormateado", totalFormateado);
+		}
+
+		return "redirect:/pedido/finalizar";
+	}
+
+}

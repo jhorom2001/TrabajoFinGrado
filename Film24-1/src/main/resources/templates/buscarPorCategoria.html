@@ -166,6 +166,13 @@
 									<p class="card-text" th:text="${pelicula.descripcion}">Descripción</p>
 									<p><strong>Categoría:</strong> <span
 											th:text="${pelicula.categoria}">Categoría</span></p>
+
+									<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}"
+										class="text-decoration-none d-inline-block mt-3">
+										<i class="fas fa-comment text-warning" style="font-size: 1.5rem;"
+											title="Opinar"></i>
+										<div style="font-size: 0.9rem;">Opinar</div>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -186,7 +193,7 @@
 
 				<div class="col-md-4 mb-4">
 					<span class="footer-logo d-block mb-2">
-						<i class="fas fa-film"></i> <strong>PopCornApp</strong>
+						<i class="fas fa-film"></i> <strong>PopCornWeb</strong>
 					</span>
 					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
 					<div class="social-icons mt-2">

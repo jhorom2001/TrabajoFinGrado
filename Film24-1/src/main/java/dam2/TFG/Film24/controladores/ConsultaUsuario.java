@@ -22,8 +22,6 @@ import dam2.TFG.Film24.repository.VisualizacionRepository;
 @Controller
 public class ConsultaUsuario {
 
-//	@Autowired
-//	private Film24DAO dao;
 
 	@Autowired
 	VisualizacionRepository visualizacionRepository;

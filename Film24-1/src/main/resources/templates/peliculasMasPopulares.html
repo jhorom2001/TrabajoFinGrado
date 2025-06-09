@@ -130,6 +130,11 @@
 			font-size: 0.9rem;
 			color: #aaa;
 		}
+
+		.opinar-link:hover {
+			text-decoration: underline;
+			cursor: pointer;
+		}
 	</style>
 </head>
 
@@ -151,6 +156,15 @@
 							<strong>Director:</strong> <span th:text="${pelicula.director}">Director</span><br />
 							<strong>Año:</strong> <span th:text="${pelicula.anyo}">Año</span><br />
 							<strong>Duración:</strong> <span th:text="${pelicula.duracion}">Duración</span> min
+						</p>
+
+						<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}"
+							class="opinar-link d-flex align-items-center mt-3 text-decoration-none">
+							<i class="fas fa-comment text-warning me-2" style="font-size: 1.5rem;" title="Opinar"></i>
+							<span style="font-size: 1rem; font-weight: 600; color: #f1c40f;">Opinar</span>
+						</a>
+
+						</a>
 						</p>
 					</div>
 				</div>
@@ -174,7 +188,7 @@
 
 				<div class="col-md-4 mb-4">
 					<span class="footer-logo d-block mb-2">
-						<i class="fas fa-film"></i> <strong>PopCornApp</strong>
+						<i class="fas fa-film"></i> <strong>PopCornWeb</strong>
 					</span>
 					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
 					<div class="social-icons mt-2">

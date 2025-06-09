@@ -31,8 +31,7 @@ public class Film24DAO {
 	private VisualizacionRepository visualizacionRepository;
 
 	@PersistenceContext
-	private EntityManager em; // interfaz principal para interactuar con la bbdd  de forma orientada a objetos.jpa
-
+	private EntityManager em; 
 	// USUARIOS
 	public void altaUsuario(Usuario u) {
 		em.persist(u);
@@ -47,7 +46,12 @@ public class Film24DAO {
 		if (usuario != null) {
 			usuario.setNombre(u.getNombre());
 			usuario.setApellido(u.getApellido());
+			usuario.setDni(u.getDni());
 			usuario.setEdad(u.getEdad());
+			usuario.setDireccion(u.getDireccion());
+			usuario.setTelefono(u.getTelefono());
+			usuario.setCorreoElectronico(u.getCorreoElectronico());
+
 		} else {
 			System.out.println("Usuario no encontrado con el ID proporcionado.");
 		}
@@ -157,12 +161,11 @@ public class Film24DAO {
 	public void altaPedido(Pedido pedido) {
 		em.persist(pedido);
 	}
-	
-	public List<Pedido> listaPedidos() {
-	    String jpql = "SELECT p FROM Pedido p ORDER BY p.fecha DESC";
-	    return em.createQuery(jpql, Pedido.class).getResultList();
-	}
 
+	public List<Pedido> listaPedidos() {
+		String jpql = "SELECT p FROM Pedido p ORDER BY p.fecha DESC";
+		return em.createQuery(jpql, Pedido.class).getResultList();
+	}
 
 	public Producto buscarProductoPorId(Long id) {
 
@@ -185,7 +188,7 @@ public class Film24DAO {
 	// CONSULTAS(lista de peliculas para usuario)
 	public List<Pelicula> listaPeliculas() {
 		String jpql = "SELECT p FROM Pelicula p"; // cadena jpql
-		return em.createQuery(jpql, Pelicula.class).getResultList();// em interactua con la bbdd crea consulta 
+		return em.createQuery(jpql, Pelicula.class).getResultList();// em interactua con la bbdd crea consulta
 	}
 
 	public List<Usuario> listaUsuarios() {
@@ -207,10 +210,9 @@ public class Film24DAO {
 	public Usuario obtenerUsuarioPorCorreoElectronico(String correo) {
 		return usuarioRepository.findByCorreoElectronico(correo).orElse(null);
 	}
-	
-	public void actualizarProducto(Producto producto) {
-	    em.merge(producto);
-	}
 
+	public void actualizarProducto(Producto producto) {
+		em.merge(producto);
+	}
 
 }

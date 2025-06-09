@@ -8,4 +8,6 @@ import dam2.TFG.Film24.modelo.Noticia;
 
 public interface NoticiaRepository extends JpaRepository<Noticia, Integer>{
 	Optional<Noticia> findById(Integer id);
+
+
 }

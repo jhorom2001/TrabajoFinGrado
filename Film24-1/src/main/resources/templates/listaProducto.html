@@ -49,12 +49,12 @@
 
 		.card-producto img {
 			width: 100%;
-			height: 410px;
-			object-fit: cover;
-			border-top-left-radius: 0.375rem;
-			border-top-right-radius: 0.375rem;
+			height: auto;
+			object-fit: contain;
+			border-radius: 0.375rem 0.375rem 0 0;
+			max-width: 300px;
+			margin: 0 auto;
 		}
-
 
 		.btn-icon {
 			display: inline-flex;
@@ -82,47 +82,50 @@
 			<span><i class="fas fa-shopping-cart me-2"></i>Carrito: <strong th:text="${carritoCantidad}">0</strong>
 				producto(s)</span>
 			<div>
-				<a class="btn btn-success me-2 btn-icon" th:href="@{/pedido/finalizar}">
-					<i class="fas fa-check-circle"></i> Acceder al carrito
+				<a th:href="@{/pedido/finalizar}" class="btn btn-success me-2 btn-icon"
+					th:classappend="${carritoCantidad == 0} ? ' disabled' : ''"
+					th:attr="aria-disabled=${carritoCantidad == 0} ? 'true' : 'false'"
+					th:text="${carritoCantidad == 0} ? 'Carrito vacío' : 'Acceder al carrito'">
+					<i class="fas fa-check-circle"></i>
 				</a>
+
 				<a class="btn btn-danger btn-icon" th:href="@{/usuarioLogeado}">
 					<i class="fas fa-sign-out-alt"></i> Salir de la tienda
 				</a>
 			</div>
 		</div>
-		
+
 
 
 		<div class="row g-4">
-		    <div class="col-12 col-sm-6 col-md-4" 
-		         th:each="producto : ${productos}" 
-		         th:with="linea=${carritoMapa[producto.id]}">
-		        <div class="card card-producto h-100 shadow-sm">
-		            <img th:src="@{${producto.imagen}}" class="card-img-top" alt="Imagen del producto">
-		            <div class="card-body text-center">
-		                <h5 class="card-title" th:text="${producto.nombre}">Nombre del producto</h5>
-		                <p class="card-text text-success fw-bold" th:text="${producto.precio} + ' €'">0.0 €</p>
-		                <form th:action="@{/producto/comprar/{id}(id=${producto.id})}" method="post">
-		                    <button type="submit" class="btn btn-warning btn-icon w-100"
-		                            th:disabled="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)}">
+			<div class="col-12 col-sm-6 col-md-3" th:each="producto : ${productos}"
+				th:with="linea=${carritoMapa[producto.id]}">
+				<div class="card card-producto h-100 shadow-sm">
+					<img th:src="@{${producto.imagen}}" class="card-img-top" alt="Imagen del producto">
+					<div class="card-body text-center">
+						<h5 class="card-title" th:text="${producto.nombre}">Nombre del producto</h5>
+						<p class="card-text text-success fw-bold" th:text="${producto.precio} + ' €'">0.0 €</p>
+						<form th:action="@{/producto/comprar/{id}(id=${producto.id})}" method="post">
+							<button type="submit" class="btn btn-warning btn-icon w-100"
+								th:disabled="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)}">
 
-		                        <i class="fas fa-cart-plus"
-		                           th:if="${producto.stock > 0 and (linea == null or linea.cantidad < producto.stock)}"></i>
+								<i class="fas fa-cart-plus"
+									th:if="${producto.stock > 0 and (linea == null or linea.cantidad < producto.stock)}"></i>
 
-		                        <span th:text="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)
+								<span th:text="${producto.stock == 0 or (linea != null and linea.cantidad >= producto.stock)
 		                                           ? 'Agotado' 
 		                                           : 'Añadir al carrito'}">
-		                            Añadir al carrito
-		                        </span>
-		                    </button>
-		                </form>
-		                
-		            </div>
-		        </div>
-		    </div>
+									Añadir al carrito
+								</span>
+							</button>
+						</form>
+
+					</div>
+				</div>
+			</div>
 		</div>
-		
-		
+
+
 
 		<footer class="footer mt-5">
 			<p>2025 Tu Tienda Online. Todos los derechos reservados.</p>

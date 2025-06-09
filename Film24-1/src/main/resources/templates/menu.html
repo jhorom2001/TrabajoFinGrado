@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Menú Personal</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: 'Inter', sans-serif;
+			background-color: #f7f9fa;
+			color: #333;
+		}
+
+		header {
+			background-color: #d32f2f;
+			color: white;
+			padding: 20px 40px;
+			text-align: center;
+			font-weight: bold;
+			position: relative;
+			font-size: 1.5rem;
+		}
+
+		.volver-btn {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+			background-color: #00796b;
+			color: white;
+			font-weight: 600;
+			padding: 10px 16px;
+			border: none;
+			border-radius: 8px;
+			text-decoration: none;
+			font-size: 0.9rem;
+			transition: background-color 0.3s ease;
+		}
+
+		.volver-btn:hover {
+			background-color: #004d40;
+		}
+
+		form.logout-form {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			margin: 0;
+		}
+
+		form.logout-form button {
+			background: white;
+			border: none;
+			color: #d32f2f;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 0.95rem;
+			padding: 8px 14px;
+			border-radius: 6px;
+			transition: background-color 0.3s;
+			display: flex;
+			align-items: center;
+		}
+
+		form.logout-form button:hover {
+			background-color: #f5f5f5;
+		}
+
+		main {
+			background-color: white;
+			border-top-left-radius: 20px;
+			border-top-right-radius: 20px;
+			margin-top: -10px;
+			padding: 30px;
+			box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+		}
+
+		.profile-header {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+
+		.avatar {
+			width: 80px;
+			height: 80px;
+			background-color: #00796b;
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 28px;
+			margin: 0 auto 12px;
+			font-weight: bold;
+			border: 5px solid #b2dfdb;
+		}
+
+		.profile-name {
+			font-weight: 700;
+			font-size: 20px;
+			margin-bottom: 6px;
+		}
+
+		.link {
+			color: #00796b;
+			font-weight: 600;
+			text-decoration: none;
+			font-size: 0.95rem;
+		}
+
+		.link:hover {
+			text-decoration: underline;
+		}
+
+		.search {
+			display: flex;
+			align-items: center;
+			margin: 25px 0;
+			border: 1px solid #ddd;
+			border-radius: 12px;
+			padding: 12px 16px;
+			background-color: #f1f1f1;
+		}
+
+		.search input {
+			border: none;
+			outline: none;
+			flex: 1;
+			font-size: 16px;
+			background: transparent;
+		}
+
+		.search-icon {
+			font-size: 1.2rem;
+			margin-right: 12px;
+			color: #888;
+		}
+
+		nav {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.menu-item {
+			display: flex;
+			align-items: center;
+			padding: 14px 16px;
+			border-radius: 10px;
+			background-color: #fafafa;
+			transition: background-color 0.2s ease;
+			font-size: 1rem;
+			font-weight: 500;
+			color: #333;
+			cursor: pointer;
+		}
+
+		.menu-item i {
+			margin-right: 16px;
+			font-size: 1.2rem;
+		}
+
+		.menu-item:hover {
+			background-color: #e0f2f1;
+		}
+
+		.menu-item.red {
+			color: #d32f2f;
+			font-weight: 700;
+			background-color: #ffebee;
+		}
+
+		.menu-item.red:hover {
+			background-color: #ffcdd2;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		Menú
+
+		<a href="/usuarioLogeado" class="volver-btn" aria-label="Volver a usuarioLogeado">Volver</a>
+
+		<form th:action="@{/logout}" method="post" class="logout-form">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<button type="submit" aria-label="Cerrar sesión">
+				⏻ Salir
+			</button>
+		</form>
+	</header>
+
+	<main>
+		<div class="profile-header" aria-label="Perfil de usuario">
+			<div class="avatar"
+				th:text="${#strings.substring(usuario.nombre, 0, 1) + #strings.substring(usuario.apellido, 0, 1)}">
+				IN
+			</div>
+			<div class="profile-name" th:text="${usuario.nombre + ' ' + usuario.apellido}">Nombre del usuario</div>
+			<a href="/areaPersonal" class="link" aria-label="Ir a Área personal">Área personal</a>
+		</div>
+
+		<section class="search" aria-label="Buscador">
+			<span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+			<input type="text" placeholder="Buscar en el menú" aria-label="Buscar en el menú" />
+		</section>
+
+		<nav aria-label="Navegación principal">
+			<div class="menu-item red">
+				<i aria-hidden="true">&#x1F3E0;</i> <span>Inicio</span>
+			</div>
+			<div class="menu-item">
+				<i aria-hidden="true">&#x1F4BC;</i> <span>Mis productos</span>
+			</div>
+			<div class="menu-item">
+				<i aria-hidden="true">&#x1F31F;</i> <span>Mi espacio</span>
+			</div>
+			<div class="menu-item">
+				<i aria-hidden="true">&#x1F512;</i> <span>Seguridad y claves</span>
+			</div>
+			<div class="menu-item">
+				<i aria-hidden="true">&#x2753;</i> <span>Centro ayuda</span>
+			</div>
+			<div class="menu-item">
+				<i aria-hidden="true">&#x1F44D;</i> <span>Ayúdanos a mejorar</span>
+			</div>
+		</nav>
+	</main>
+</body>
+
+</html>

@@ -70,6 +70,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+    		<groupId>com.stripe</groupId>
+    		<artifactId>stripe-java</artifactId>
+    		<version>29.2.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
@@ -77,6 +84,11 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			
+			
+
+
 		</plugins>
 	</build>
 </project>

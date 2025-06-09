@@ -144,21 +144,32 @@
 						<div class="col" th:each="pelicula : ${peliculas}">
 							<div class="card h-100">
 								<img th:src="@{${pelicula.imagen}}" class="card-img-top" th:alt="${pelicula.titulo}" />
-								<div class="card-body">
+
+								<div class="card-body text-center">
 									<h5 class="card-title" th:text="${pelicula.titulo}">Título</h5>
 									<p class="card-text" th:text="${pelicula.descripcion}">Descripción</p>
 									<p><strong>Categoría:</strong> <span th:text="${pelicula.categoria}"></span></p>
+
+									<a th:href="@{/detallePelicula/{id}(id=${pelicula.id})}"
+										class="text-decoration-none d-inline-block mt-3">
+										<i class="fas fa-comment text-warning" style="font-size: 1.5rem;"
+											title="Opinar"></i>
+										<div style="font-size: 0.9rem;">Opinar</div>
+									</a>
 								</div>
+
+
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<div th:if="${peliculas != null and #lists.isEmpty(peliculas)}" class="text-center mt-4">
-					<p>No se encontraron películas con ese título.</p>
-				</div>
+			<div th:if="${peliculas != null and #lists.isEmpty(peliculas)}" class="text-center mt-4">
+				<p>No se encontraron películas con ese título.</p>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<!-- Footer añadido -->
@@ -168,7 +179,7 @@
 
 				<div class="col-md-4 mb-4">
 					<span class="footer-logo d-block mb-2">
-						<i class="fas fa-film"></i> <strong>PopCornApp</strong>
+						<i class="fas fa-film"></i> <strong>PopCornWeb</strong>
 					</span>
 					<p>Tu portal de cine favorito con las mejores películas, series y documentales.</p>
 					<div class="social-icons mt-2">
